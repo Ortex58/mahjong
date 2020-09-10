@@ -1,0 +1,15 @@
+sub Main()
+	game = new_game(1280, 720, true) ' This initializes the game engine
+	game.loadBitmap("game_bg", "pkg:/sprites/bg_classic.jpg")
+	game.loadBitmap("chips", "pkg:/sprites/dominoes.jpg")
+	game.loadBitmap("chip4_4", "pkg:/sprites/chip4_4.jpg")
+	game.loadBitmap("chip4_5", "pkg:/sprites/chip4_5.jpg")
+	game.loadBitmap("chip4_6", "pkg:/sprites/chip4_6.jpg")
+	game.loadBitmap("chip5_5", "pkg:/sprites/chip5_5.jpg")
+	game.loadBitmap("chip5_6", "pkg:/sprites/chip5_6.jpg")
+	game.loadBitmap("chip6_6", "pkg:/sprites/chip6_6.jpg")
+	game.defineRoom("room_lobby", room_lobby)
+	game.defineObject("chips", obj_chips)
+	game.changeRoom("room_lobby")
+	game.Play()
+end sub
