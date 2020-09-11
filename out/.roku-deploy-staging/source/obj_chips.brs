@@ -1,58 +1,41 @@
 function obj_chips(object)
 
-	object.x = invalid
-	object.y = invalid
 	object.opacity = 100
 	object.no_opacity = 255
-	object.k = invalid
 	object.arrImages = []
 
 	object.onCreate = function(args)
 
-		m.y = m.game.getCanvas().GetHeight()
-		m.x = m.game.getCanvas().GetWidth()
-
-		bm_chip = m.game.getBitmap("chip4_4")
-		region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
-		region.SetPretranslation(- bm_chip.GetWidth() - 1200, - bm_chip.GetHeight() - 600)
-		m.addImage("chip", region)
-
-		bm_chip2 = m.game.getBitmap("chip4_5")
-		region = CreateObject("roRegion", bm_chip2, 0, 0, bm_chip2.GetWidth(), bm_chip2.GetHeight())
-		region.SetPretranslation(- bm_chip2.GetWidth() - 1100, - bm_chip2.GetHeight() - 600)
-		m.addImage("chip2", region)
-
-		bm_chip3 = m.game.getBitmap("chip4_6")
-		region = CreateObject("roRegion", bm_chip3, 0, 0, bm_chip3.GetWidth(), bm_chip3.GetHeight())
-		region.SetPretranslation(- bm_chip3.GetWidth() - 1000, - bm_chip3.GetHeight() - 600)
-		m.addImage("chip3", region)
-
-		bm_chip4 = m.game.getBitmap("chip5_5")
-		region = CreateObject("roRegion", bm_chip4, 0, 0, bm_chip4.GetWidth(), bm_chip4.GetHeight())
-		region.SetPretranslation(- bm_chip4.GetWidth() - 1200, - bm_chip4.GetHeight() - 450)
-		m.addImage("chip4", region)
-
-		bm_chip5 = m.game.getBitmap("chip5_6")
-		region = CreateObject("roRegion", bm_chip5, 0, 0, bm_chip5.GetWidth(), bm_chip5.GetHeight())
-		region.SetPretranslation(- bm_chip5.GetWidth() - 1100, - bm_chip5.GetHeight() - 450)
-		m.addImage("chip5", region)
-
-		bm_chip6 = m.game.getBitmap("chip6_6")
-		region = CreateObject("roRegion", bm_chip6, 0, 0, bm_chip6.GetWidth(), bm_chip6.GetHeight())
-		region.SetPretranslation(- bm_chip6.GetWidth() - 1000, - bm_chip6.GetHeight() - 450)
-		m.addImage("chip6", region)
-		
 		' Add arr of images to arrImage array
 		arrImage = CreateObject("roArray", 0, true)
-		for i = 0 to m.images.Count() - 1
-			m.k = m.images[i]
-			m.arrImages.Push(m.k)
-			m.arrImages[i].state = false
-		end for
-		
+
+		c_y = m.game.getCanvas().GetHeight()/2
+		c_x = m.game.getCanvas().GetWidth()/2
+
+		m.addChip("chip4_4",c_x-100,c_y-100)
+		m.addChip("chip4_5",c_x,    c_y-100)
+		m.addChip("chip4_6",c_x+100,c_y-100)
+		m.addChip("chip5_5",c_x-100,c_y+100)
+		m.addChip("chip5_6",c_x,    c_y+100)
+		m.addChip("chip6_6",c_x+100,c_y+100)
+				
 		m.arrImages[0].state = true
 		m.arrImages[0].alpha = m.opacity
 
+	end function
+
+	object.addChip = function(bm_key,px,py)
+		bm_chip = m.game.getBitmap(bm_key)
+		region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
+
+		'make offset for chip coordinate center (anchor point)
+		region.SetPretranslation(- bm_chip.GetWidth()/2, - bm_chip.GetHeight()/2)
+
+STOP
+		img = m.addImage(bm_key + "_img", region,{offset_x:px,offset_y:py})
+		
+		m.arrImages.Push(img)
+		m.arrImages.Peek().state = false
 	end function
 
 	object.onUpdate = function(dt)

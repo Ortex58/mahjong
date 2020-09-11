@@ -1,20 +1,22 @@
 function room_lobby(object)
-	' object.x = invalid
-	' object.y = invalid
-	' object.width = invalid
-	' object.height = invalid
+	
 
 	object.onCreate = function(args)
-		m.game.createInstance("chips")
+		
+		'set z-order
+		m.depth = 1
+
 		'Set background for lobby
-		' m.y = m.game.getCanvas().GetHeight()
-		' m.x = m.game.getCanvas().GetWidth()
-		' bm_paddle = m.game.getBitmap("game_bg")
-		' m.width = bm_paddle.GetWidth()
-		' m.height = bm_paddle.GetHeight()
-		' region = CreateObject("roRegion", bm_paddle, 0, 0, m.width, m.height)
-		' region.SetPretranslation(-m.width-500, -m.height)
-		' m.addImage("main", region)
+		bm_bg = m.game.getBitmap("game_bg")
+		width = bm_bg.GetWidth()
+		height = bm_bg.GetHeight()
+		region = CreateObject("roRegion", bm_bg, 0, 0, width, height)
+		bg = m.addImage("main", region)
+		bg.offset_x = 0
+		bg.offset_y = 0
+
+
+		m.game.createInstance("chips")
 
 	end function
 
