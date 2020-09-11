@@ -7,6 +7,7 @@ function room_lobby(object)
 		m.depth = 1
 
 		'Set background for lobby
+
 		bm_bg = m.game.getBitmap("game_bg")
 		width = bm_bg.GetWidth()
 		height = bm_bg.GetHeight()
