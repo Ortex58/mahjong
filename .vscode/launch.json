@@ -18,7 +18,8 @@
         "manifest",
         "source/**/*.*",
         "images/**/*.*",
-        "sprites/**/*.*"
+        "sprites/**/*.*",
+        "config/**/*.*"
     ]
     }
   ]
