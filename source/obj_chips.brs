@@ -15,10 +15,10 @@ function obj_chips(object)
 		levelsFile = "pkg:/config/config.json"
 		m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
 		num = m.currentConfig["post"]
-		print num[1].x
-		for i = 0 to 5
+		print num
+		'for i = 0 to 5
 		m.addChip("chip4_4",c_x-num[1].x, c_y-100)
-		end for
+		'end for
 		
 		
 		
