@@ -12,13 +12,18 @@ function obj_chips(object)
 		c_y = m.game.getCanvas().GetHeight()/2
 		c_x = m.game.getCanvas().GetWidth()/2
 
-		m.addChip("chip4_4",c_x-100,c_y-100)
+		levelsFile = "pkg:/config/config.json"
+		m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
+		num = m.currentConfig["post"]
+
+		m.addChip("chip4_4",c_x-num[0].x, c_y-100)
+		'm.addChip("chip4_4",c_x-100,c_y-100)
 		m.addChip("chip4_5",c_x,    c_y-100)
 		m.addChip("chip4_6",c_x+100,c_y-100)
 		m.addChip("chip5_5",c_x-100,c_y+100)
 		m.addChip("chip5_6",c_x,    c_y+100)
 		m.addChip("chip6_6",c_x+100,c_y+100)
-				
+
 		m.arrImages[0].state = true
 		m.arrImages[0].alpha = m.opacity
 
