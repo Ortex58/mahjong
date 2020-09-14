@@ -17,31 +17,31 @@ function obj_chips(object)
 		num = m.currentConfig["post"]
 		print num[1].x
 		for i = 0 to 5
-		m.addChip("chip4_4",c_x-num[1].x, c_y-100)
+			m.addChip("chip4_4","chip" + str(i),c_x-num[i].x, c_y-100)
 		end for
 		
 		
 		
 		'm.addChip("chip4_4",c_x-100,c_y-100)
-		m.addChip("chip4_5",c_x,    c_y-100)
-		m.addChip("chip4_6",c_x+100,c_y-100)
-		m.addChip("chip5_5",c_x-100,c_y+100)
-		m.addChip("chip5_6",c_x,    c_y+100)
-		m.addChip("chip6_6",c_x+100,c_y+100)
+		' m.addChip("chip4_5",c_x,    c_y-100)
+		' m.addChip("chip4_6",c_x+100,c_y-100)
+		' m.addChip("chip5_5",c_x-100,c_y+100)
+		' m.addChip("chip5_6",c_x,    c_y+100)
+		' m.addChip("chip6_6",c_x+100,c_y+100)
 
 		m.arrImages[0].state = true
 		m.arrImages[0].alpha = m.opacity
 
 	end function
 
-	object.addChip = function(bm_key,px,py)
+	object.addChip = function(bm_key,img_key,px,py)
 		bm_chip = m.game.getBitmap(bm_key)
 		region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
 
 		'make offset for chip coordinate center (anchor point)
 		region.SetPretranslation(- bm_chip.GetWidth()/2, - bm_chip.GetHeight()/2)
 
-		img = m.addImage(bm_key + "_img", region,{offset_x:px,offset_y:py})
+		img = m.addImage(img_key + "_img", region,{offset_x:px,offset_y:py})
 		
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
