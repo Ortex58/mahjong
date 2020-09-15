@@ -9,31 +9,35 @@ function obj_chips(object)
 		' Add arr of images to arrImage array
 		arrImage = CreateObject("roArray", 0, true)
 
-		c_x = m.game.getCanvas().GetWidth()-1255
-		c_y = m.game.getCanvas().GetHeight()-670
+		c_x = m.game.getCanvas().GetWidth() - 1255
+		c_y = m.game.getCanvas().GetHeight() - 670
 
+		'Parse JSON and add to num array
 		levelsFile = "pkg:/config/config.json"
 		m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
 		num = m.currentConfig["post"]
 
-		for i = 0 to num.Count() - 1
-			m.addChip("chip" + str(i).trim(), "chip" + str(i),c_x+num[i].x, c_y+num[i].y)
+		'Loop add images
+		for i = 0 to 5'num.Count() - 1
+				name = "chip" + str(i).trim()
+				m.addChip(name, "chip" + str(i), c_x + num[i].x, c_y + num[i].y)
 		end for
+		
+		
 
 		m.arrImages[0].state = true
 		m.arrImages[0].alpha = m.opacity
-
 	end function
 
-	object.addChip = function(bm_key,img_key,px,py)
+	object.addChip = function(bm_key, img_key, px, py)
 		bm_chip = m.game.getBitmap(bm_key)
 		region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
 
 		'make offset for chip coordinate center (anchor point)
-		region.SetPretranslation(- bm_chip.GetWidth()/2, - bm_chip.GetHeight()/2)
+		region.SetPretranslation(- bm_chip.GetWidth() / 2, - bm_chip.GetHeight() / 2)
 
-		img = m.addImage(img_key + "_img", region,{offset_x:px,offset_y:py})
-		
+		img = m.addImage(img_key + "_img", region, { offset_x: px, offset_y: py })
+
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
 	end function
@@ -99,7 +103,7 @@ function obj_chips(object)
 					m.arrImages[i].alpha = m.opacity
 				end if
 			end if
-			
+
 			if code = 2 ' Up
 				if m.arrImages[i].state = true and i = 3
 					m.arrImages[i].state = false
