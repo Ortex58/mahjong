@@ -18,12 +18,10 @@ function obj_chips(object)
 		num = m.currentConfig["post"]
 
 		'Loop add images
-		for i = 0 to 5'num.Count() - 1
-				name = "chip" + str(i).trim()
-				m.addChip(name, "chip" + str(i), c_x + num[i].x, c_y + num[i].y)
+		for i = 0 to num.Count() - 1
+					name = "chip" + str(i-Int(i/6)*6).trim()
+					m.addChip(name, "chip" + str(i).trim(), c_x + num[i].x, c_y + num[i].y)
 		end for
-		
-		
 
 		m.arrImages[0].state = true
 		m.arrImages[0].alpha = m.opacity
