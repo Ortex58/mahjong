@@ -31,7 +31,7 @@ function obj_chips(object)
 	'Function create a Chip
 	object.addChip = function(bm_key, img_key, px, py)
 		bm_chip = m.game.getBitmap(bm_key)
-		region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
+		region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight()-30)
 
 		'make offset for chip coordinate center (anchor point)
 		region.SetPretranslation(- bm_chip.GetWidth() / 2, - bm_chip.GetHeight() / 2)
