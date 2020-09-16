@@ -1,7 +1,8 @@
 sub Main()
 	game = new_game(1280, 720, true) ' This initializes the game engine
-	game.loadBitmap("game_bg", "pkg:/sprites/bg_classic.jpg")
-	game.loadBitmap("chips", "pkg:/sprites/dominoes.jpg")
+	game.loadBitmap("game_bg", "pkg:/sprites/bg_game.jpg")
+	game.loadBitmap("tiles", "pkg:/sprites/tiles.png")
+	game.loadBitmap("selection", "pkg:/sprites/selection.png")
 	game.loadBitmap("chip0", "pkg:/sprites/chip4_4.jpg")
 	game.loadBitmap("chip1", "pkg:/sprites/chip4_5.jpg")
 	game.loadBitmap("chip2", "pkg:/sprites/chip4_6.jpg")
