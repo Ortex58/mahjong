@@ -99,6 +99,42 @@ function obj_chips(object)
 					i = 20
 					m.arrImages[i].state = true
 					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 3
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 30
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 4
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 45
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 5
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 57
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 6
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 67
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 7
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 75
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 8
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 0
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
 				end if
 			end for
 		end if
@@ -108,7 +144,7 @@ function obj_chips(object)
 				if m.arrImages[i].state = true and m.arrImages[i].row = 1
 					m.arrImages[i].state = false
 					m.arrImages[i].alpha = m.no_opacity
-					i = 20
+					i = 75
 					m.arrImages[i].state = true
 					m.arrImages[i].alpha = m.opacity
 				else if m.arrImages[i].state = true and m.arrImages[i].row = 2
@@ -121,6 +157,42 @@ function obj_chips(object)
 					m.arrImages[i].state = false
 					m.arrImages[i].alpha = m.no_opacity
 					i = 12
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 4
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 20
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 5
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 30
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 6
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 45
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 6
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 57
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 7
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 57
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				else if m.arrImages[i].state = true and m.arrImages[i].row = 8
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 0
 					m.arrImages[i].state = true
 					m.arrImages[i].alpha = m.opacity
 				end if
