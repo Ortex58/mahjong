@@ -23,8 +23,6 @@ function obj_chips(object)
 			m.arrImages[i].row = m.num[i].j
 		end for
 
-
-
 		m.arrImages[0].state = true
 		m.arrImages[0].alpha = m.opacity
 	end function
