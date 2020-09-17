@@ -8,13 +8,16 @@ sub Main()
 	game.loadBitmap("tiles", "pkg:/sprites/tiles.png")
 	game.loadBitmap("selection", "pkg:/sprites/selection.png")
 	game.loadBitmap("but_play", "pkg:/sprites/but_play.png")
-	game.loadBitmap("but_back", "pkg:/sprites/but_no.png")
-	game.loadBitmap("level1", "pkg:/sprites/but_level_classic.png")
-	game.loadBitmap("level2", "pkg:/sprites/but_level_monument.png")
-	game.loadBitmap("level3", "pkg:/sprites/but_level_pyramids.png")
-	game.loadBitmap("level4", "pkg:/sprites/but_level_arena.png")
-	game.loadBitmap("level5", "pkg:/sprites/but_level_four.png")
-	game.loadBitmap("level6", "pkg:/sprites/but_level_thewall.png")
+	game.loadBitmap("level0", "pkg:/sprites/but_level_classic.png")
+	game.loadBitmap("level1", "pkg:/sprites/but_level_monument.png")
+	game.loadBitmap("level2", "pkg:/sprites/but_level_pyramids.png")
+	game.loadBitmap("level3", "pkg:/sprites/but_level_arena.png")
+	game.loadBitmap("level4", "pkg:/sprites/but_level_four.png")
+	game.loadBitmap("level5", "pkg:/sprites/but_level_thewall.png")
+
+	'load font
+	game.loadFont("font1_60", "TradeGothic LT CondEighteen", 60, false, false)
+	game.loadFont("font2_25", "TradeGothic LT CondEighteen", 25, false, false)
 
 	'Load room
 	game.defineRoom("room_lobby", room_lobby)
@@ -24,7 +27,7 @@ sub Main()
 	game.defineObject("chips", obj_chips)
 
 	'Sellect room
-	game.changeRoom("room_menu")
+	game.changeRoom("room_start")
 
 	'Start game
 	game.Play()

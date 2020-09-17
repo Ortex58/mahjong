@@ -19,7 +19,8 @@
         "source/**/*.*",
         "images/**/*.*",
         "sprites/**/*.*",
-        "config/**/*.*"
+        "config/**/*.*",
+        "fonts/**/*.*"
     ]
     }
   ]

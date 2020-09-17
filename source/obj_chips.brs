@@ -218,6 +218,10 @@ function obj_chips(object)
 			end for
 		end if
 
+		if code = 0 then
+      m.game.changeRoom("room_menu")
+    end if
+
 	end function
 
 end function
