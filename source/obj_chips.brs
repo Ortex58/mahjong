@@ -3,33 +3,26 @@ function obj_chips(object)
 	object.opacity = 100
 	object.no_opacity = 255
 	object.arrImages = []
-	'Parse JSON and add to num array
-	levelsFile = "pkg:/config/config-new.json"
-	m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
-	object.num = m.currentConfig
+	object.levelsFile = "pkg:/config/config-new.json"
+	
 
 	object.onCreate = function(args)
-
+		m.levelConfig = ParseJSON(ReadAsciiFile(m.levelsFile))
+		levelID = 0 'level Type
+		levelData = m.levelConfig[levelID]
+		m.levelData = levelData
 		' Add arr of images to arrImage array
-		c_x = 0
-		c_y = 0
-		for k = 0 to m.num.Count() - 1
-			if m.num[k].difficulty = "medium" and m.num[k].label = "classic"
-				c_x = m.num[k].layout_pos.x ' Чому така мала відстань зліва якщо 30
-				c_y = m.num[k].layout_pos.y
-				for i = 0 to 4
-					rows = m.num[k].pos
-					for j = 0 to 8
-						m.addTile(j + i * 9, c_x + j * 50, c_y + i * 100)
-					end for
-				end for
-			end if
+		c_x = levelData.layout_pos.x
+		c_y = levelData.layout_pos.y
+		
+		for k = 0 to levelData.pos.Count() - 1
+			chipCode = k MOD 42
+			m.addTile(chipCode,str(k), c_x + levelData.pos[k].x, c_y + levelData.pos[k].y,levelData.heights[k])
 		end for
-
 	end function
 	'Function create a Chip
 
-	object.addTile = function(idx, px, py)
+	object.addTile = function(idx,name, px, py, pz)
 		bm_tile = m.game.getBitmap("tiles")
 		tile_w = 60
 		tile_h = 78
@@ -37,8 +30,8 @@ function obj_chips(object)
 		row = idx \ 9
 		region = CreateObject("roRegion", bm_tile, col * tile_w, row * tile_h, tile_w, tile_h)
 		region.SetPretranslation(- tile_w / 2, - tile_h / 2)
-		img = m.addImage("tile_" + str(idx) + "_img", region, { offset_x: px, offset_y: py })
-
+		img = m.addImage("tile_" + name + "_img", region, { offset_x: px, offset_y: py })
+		'TODO apply pz when chip will created  by "createObject"
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
 		m.arrImages.Peek().row = 0

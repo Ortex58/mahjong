@@ -18,7 +18,7 @@ function room_lobby(object)
 		
 		'Audio Icon
 		btn_Audio = m.game.getBitmap("but_audio")
-    audio_w = 80
+    	audio_w = 80
 		audio_h = 73
 		width = btn_Audio.GetWidth()
 		height = btn_Audio.GetHeight()
