@@ -1,7 +1,7 @@
 sub Main()
 	'Initializes the game engine
 	game = new_game(1280, 720, true)
-
+	m.game = game
 	'load bitmap
 	game.loadBitmap("menu_bg", "pkg:/sprites/bg_menu.jpg")
 	game.loadBitmap("game_bg", "pkg:/sprites/bg_game.jpg")
@@ -26,11 +26,12 @@ sub Main()
 	'Load room
 	game.defineRoom("room_lobby", room_lobby)
 	game.defineRoom("room_menu", room_menu)
+	game.defineRoom("room_start", room_start)
 	'Chips
 	game.defineObject("chips", obj_chips)
 
 	'Sellect room
-	game.changeRoom("room_menu")
+	game.changeRoom("room_start")
 
 	'Start game
 	game.Play()
