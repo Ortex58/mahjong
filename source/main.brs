@@ -7,6 +7,7 @@ sub Main()
 	game.loadBitmap("game_bg", "pkg:/sprites/bg_game.jpg")
 	game.loadBitmap("tiles", "pkg:/sprites/tiles.png")
 	game.loadBitmap("selection", "pkg:/sprites/selection.png")
+	game.loadBitmap("but_audio", "pkg:/sprites/audio_icon.png")
 	game.loadBitmap("but_play", "pkg:/sprites/but_play.png")
 	game.loadBitmap("but_hint", "pkg:/sprites/but_hint.png")
 	game.loadBitmap("but_restart", "pkg:/sprites/but_restart.png")
@@ -24,13 +25,12 @@ sub Main()
 
 	'Load room
 	game.defineRoom("room_lobby", room_lobby)
-	game.defineRoom("room_start", room_start)
 	game.defineRoom("room_menu", room_menu)
 	'Chips
 	game.defineObject("chips", obj_chips)
 
 	'Sellect room
-	game.changeRoom("room_start")
+	game.changeRoom("room_menu")
 
 	'Start game
 	game.Play()

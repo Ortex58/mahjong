@@ -15,9 +15,10 @@ function obj_chips(object)
 		c_y = 0
 		for k = 0 to m.num.Count() - 1
 			if m.num[k].difficulty = "medium" and m.num[k].label = "classic"
-				c_x = 50 ' Чому така мала відстань зліва
+				c_x = m.num[k].layout_pos.x ' Чому така мала відстань зліва якщо 30
 				c_y = m.num[k].layout_pos.y
 				for i = 0 to 4
+					rows = m.num[k].pos
 					for j = 0 to 8
 						m.addTile(j + i * 9, c_x + j * 50, c_y + i * 100)
 					end for

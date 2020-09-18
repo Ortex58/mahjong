@@ -34,6 +34,16 @@ function room_menu(object)
     end for
     m.arrBoards[0].state = true
     m.arrBoards[0].alpha = m.no_opacity
+
+    
+    btn_Audio = m.game.getBitmap("but_audio")
+    audio_w = 80
+		audio_h = 73
+		width = btn_Audio.GetWidth()
+		height = btn_Audio.GetHeight()
+		region = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
+		region.SetPretranslation(- audio_w / 2, - audio_h / 2)
+		m.addImage("button_Audio", region, { offset_x: 1200, offset_y: 80})
   end function
 
   'Function create a boards level
@@ -204,8 +214,8 @@ function room_menu(object)
       end for
     end if
     'Back
-    if code = 0 then
-      m.game.changeRoom("room_start")
+    if code = 0 then ' Back
+      m.game.End()
     end if
   end function
 
