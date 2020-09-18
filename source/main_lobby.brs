@@ -17,6 +17,28 @@ function room_lobby(object)
 		bg.offset_y = 0
 
 
+		btn_Hint = m.game.getBitmap("but_hint")
+		width = btn_Hint.GetWidth()
+		height = btn_Hint.GetHeight()
+		region = CreateObject("roRegion", btn_Hint, 0, 0, width, height)
+		region.SetPretranslation(- width / 2, - height / 2)
+		m.addImage("button_Hint", region, { offset_x: 1200, offset_y: 120 })
+		
+		btn_Restart = m.game.getBitmap("but_restart")
+		width = btn_Restart.GetWidth()
+		height = btn_Restart.GetHeight()
+		region = CreateObject("roRegion", btn_Restart, 0, 0, width, height)
+		region.SetPretranslation(- width / 2, - height / 2)
+		m.addImage("button_Restart", region, { offset_x: 1200, offset_y: 250 })
+		
+		btn_Shuffle = m.game.getBitmap("but_shuffle")
+		width = btn_Shuffle.GetWidth()
+		height = btn_Shuffle.GetHeight()
+		region = CreateObject("roRegion", btn_Shuffle, 0, 0, width, height)
+		region.SetPretranslation(- width / 2, - height / 2)
+		m.addImage("button_Shuffle", region, { offset_x: 1200, offset_y: 380 })
+
+		
 		m.game.createInstance("chips")
 
 	end function

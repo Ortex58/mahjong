@@ -6,56 +6,37 @@ function obj_chips(object)
 	'Parse JSON and add to num array
 	levelsFile = "pkg:/config/config-new.json"
 	m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
-	object.num = m.currentConfig[0].["pos"]
+	object.num = m.currentConfig
 
 	object.onCreate = function(args)
 
 		' Add arr of images to arrImage array
-		'arrImage = CreateObject("roArray", 0, true)
-
-		c_x = 200
-		c_y = 100
-
-		'Loop add images
-		' for i = 0 to m.num.Count() - 1
-		' 	name = "chip" + str(i - Int(i / 6) * 6).trim()
-		' 	m.addChip(name, "chip" + str(i).trim(), c_x + m.num[i].x, c_y + m.num[i].y)
-		' 	m.arrImages[i].row = m.num[i].j
-		' end for
-
-		for i=0 to 4
-			for j = 0 to 8
-				m.addTile(j+i*9, c_x + j * 50,c_y + i * 100)
-			end for
+		c_x = 0
+		c_y = 0
+		for k = 0 to m.num.Count() - 1
+			if m.num[k].difficulty = "medium" and m.num[k].label = "classic"
+				c_x = 50 ' Чому така мала відстань зліва
+				c_y = m.num[k].layout_pos.y
+				for i = 0 to 4
+					for j = 0 to 8
+						m.addTile(j + i * 9, c_x + j * 50, c_y + i * 100)
+					end for
+				end for
+			end if
 		end for
 
-		m.arrImages[0].state = true
-		m.arrImages[0].alpha = m.opacity
 	end function
 	'Function create a Chip
-	' object.addChip = function(bm_key, img_key, px, py)
-	' 	bm_chip = m.game.getBitmap(bm_key)
-	' 	region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight()-30)
-
-	' 	'make offset for chip coordinate center (anchor point)
-	' 	region.SetPretranslation(- bm_chip.GetWidth() / 2, - bm_chip.GetHeight() / 2)
-
-	' 	img = m.addImage(img_key + "_img", region, { offset_x: px, offset_y: py })
-
-	' 	m.arrImages.Push(img)
-	' 	m.arrImages.Peek().state = false
-	' 	m.arrImages.Peek().row = 0
-	' end function
 
 	object.addTile = function(idx, px, py)
 		bm_tile = m.game.getBitmap("tiles")
 		tile_w = 60
 		tile_h = 78
 		col = idx MOD 9
-		row = idx \ 9 
+		row = idx \ 9
 		region = CreateObject("roRegion", bm_tile, col * tile_w, row * tile_h, tile_w, tile_h)
-		region.SetPretranslation(-tile_w/2,-tile_h/2)
-		img = m.addImage("tile_"+ str(idx)+ "_img", region, { offset_x: px, offset_y: py })
+		region.SetPretranslation(- tile_w / 2, - tile_h / 2)
+		img = m.addImage("tile_" + str(idx) + "_img", region, { offset_x: px, offset_y: py })
 
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
@@ -219,8 +200,8 @@ function obj_chips(object)
 		end if
 
 		if code = 0 then
-      m.game.changeRoom("room_menu")
-    end if
+			m.game.changeRoom("room_menu")
+		end if
 
 	end function
 

@@ -7,11 +7,9 @@ function room_menu(object)
   'Parse JSON and add to num array
   levelsFile = "pkg:/config/config-new.json"
   m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
-  object.num = m.currentConfig'[0].["menu_pos"]
-  'object.name = m.currentConfig[0].["name"]
+  object.num = m.currentConfig
 
   object.onCreate = function(args)
-    m.game_started = false
     'set z-order
     m.depth = 1
     'Set background for lobby

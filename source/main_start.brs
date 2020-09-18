@@ -42,6 +42,7 @@ function room_start(object)
 
     if code = 6 then ' Select
       m.game.changeRoom("room_menu")
+      m.game_started = true
     end if
   end function
 
