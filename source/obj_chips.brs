@@ -20,16 +20,16 @@ function obj_chips(object)
 			m.arrImages[k].blocks = levelData.blocks[k]
 		end for
 
+		' Give elements who a not blocked
 		for i = 0 to m.arrImages.Count() - 1
 			up = m.arrImages[i].blocks.up_block[0]
 			right_block = m.arrImages[i].blocks.right_block[0]
 			left_block = m.arrImages[i].blocks.left_block[0]
 			if up = invalid and left_block = invalid and right_block = invalid or left_block <> invalid or right_block <> invalid
 				if left_block <> invalid and right_block <> invalid
-					m.arrImages[i].free = true
+					m.arrImages[i].free = false
 				else
 					m.arrImages[i].free = true
-					m.arrImages[i].index = 1
 				end if
 			end if
 		end for
@@ -48,9 +48,9 @@ function obj_chips(object)
 		region2 = CreateObject("roRegion", bm_tile_selected, col * tile_w, row * tile_h, tile_w, tile_h)
 		region.SetPretranslation(- tile_w / 2, - tile_h / 2)
 		region2.SetPretranslation(- tile_w / 2, - tile_h / 2)
-		img = m.addAnimatedImage("tile_" + name + "_img", [region, region2], { index:0
+		img = m.addAnimatedImage("tile_" + name + "_img", [region, region2], { index: 0
 		offset_x: px, offset_y: py, class: className })
-		
+
 		'TODO apply pz when chip will created  by "createObject"
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
@@ -59,39 +59,39 @@ function obj_chips(object)
 	end function
 
 	object.onButton = function(code as integer)
-
 		if code = 5 ' Right
-			for i = 0 to m.arrImages.Count() - 1
-				if m.arrImages[i].state = true
+			for i = 0 to m.arrFree.Count() - 1
+				if m.arrImages[i].state = true and m.arrImages[i].free = true
 					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
+					m.arrImages[i].index = 0
 					i++
 					if m.arrImages.Count() = i
 						m.arrImages[0].state = true
-						m.arrImages[0].alpha = m.opacity
+						m.arrImages[0].index = 1
 					else
 						m.arrImages[i].state = true
-						m.arrImages[i].alpha = m.opacity
+						m.arrImages[i].index = 1
 					end if
 				end if
 			end for
 		end if
 
 		if code = 4 ' Left
-			for i = 0 to m.arrImages.Count() - 1
-				if m.arrImages[i].state = true
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i--
-					if m.arrImages.Count() = i
-						m.arrImages[0].state = true
-						m.arrImages[0].alpha = m.opacity
-					else
-						m.arrImages[i].state = true
-						m.arrImages[i].alpha = m.opacity
-					end if
-				end if
-			end for
+		' 	for i = 0 to m.arrFree.Count() - 1
+		' 		if m.arrFree[i].state = true
+		' 			m.arrFree[i].state = false
+		' 			m.arrFree[i].index = 0
+		' 			i--
+		' 			if 0 = i
+		' 				i = m.arrFree.Count() - 1
+		' 				m.arrFree.[i].state = true
+		' 				m.arrFree.[i].index = 1
+		' 			else
+		' 				m.arrFree[i].state = true
+		' 				m.arrFree[i].index = 1
+		' 			end if
+		' 		end if
+		' 	end for
 		end if
 
 		if code = 3 ' Down
@@ -109,6 +109,14 @@ function obj_chips(object)
 		if code = 0 then
 			m.game.changeRoom("room_menu")
 		end if
+		
+		' if code = 6
+		' 	for i = 0 to m.arrFree.Count() - 1
+		' 		if m.arrFree[i].free = true
+		' 			m.arrFree[i].index = 1
+		' 		end if
+		' 	end for
+		' end if
 
 	end function
 
