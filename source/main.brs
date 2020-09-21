@@ -31,7 +31,7 @@ sub Main()
 	game.defineObject("chips", obj_chips)
 
 	'Sellect room
-	game.changeRoom("room_start")
+	game.changeRoom("room_lobby")
 
 	'Start game
 	game.Play()
