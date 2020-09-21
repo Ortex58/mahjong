@@ -3,6 +3,10 @@ function obj_chips(object)
 	object.opacity = 100
 	object.no_opacity = 255
 	object.arrImages = []
+	'Parse JSON and add to num array
+	levelsFile = "pkg:/config/config.json"
+	m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
+	object.num = m.currentConfig["post"]
 
 	object.onCreate = function(args)
 
@@ -12,17 +16,12 @@ function obj_chips(object)
 		c_x = m.game.getCanvas().GetWidth() - 1255
 		c_y = m.game.getCanvas().GetHeight() - 670
 
-		'Parse JSON and add to num array
-		levelsFile = "pkg:/config/config.json"
-		m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
-		num = m.currentConfig["post"]
-
 		'Loop add images
-		for i = 0 to num.Count() - 1
-					name = "chip" + str(i-Int(i/6)*6).trim()
-					m.addChip(name, "chip" + str(i).trim(), c_x + num[i].x, c_y + num[i].y)
+		for i = 0 to m.num.Count() - 1
+			name = "chip" + str(i - Int(i / 6) * 6).trim()
+			m.addChip(name, "chip" + str(i).trim(), c_x + m.num[i].x, c_y + m.num[i].y)
+			m.arrImages[i].row = m.num[i].j
 		end for
-
 		m.arrImages[0].state = true
 		m.arrImages[0].alpha = m.opacity
 	end function
@@ -38,6 +37,7 @@ function obj_chips(object)
 
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
+		m.arrImages.Peek().row = 0
 	end function
 
 	object.onUpdate = function(dt)
@@ -76,57 +76,74 @@ function obj_chips(object)
 					end if
 				end if
 			end if
-
-			if code = 3 ' Down
-				if m.arrImages[i].state = true and i = 0
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 3
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
-
-				if m.arrImages[i].state = true and i = 1
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 4
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
-				if m.arrImages[i].state = true and i = 2
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 5
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
-			end if
-
-			if code = 2 ' Up
-				if m.arrImages[i].state = true and i = 3
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 0
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
-
-				if m.arrImages[i].state = true and i = 4
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 1
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
-				if m.arrImages[i].state = true and i = 5
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 2
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
-			end if
 		end for
+		if code = 3 ' Down
+			for i = 0 to m.arrImages.Count() - 1
+				if i < 13 and m.arrImages[i].state = true
+					'print m.arrImages[i].row + m.arrImages[i].state
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 12
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				end if
+				if i > 11 and i < 20 and m.arrImages[i].state = true
+					m.arrImages[i].state = false
+					m.arrImages[i].alpha = m.no_opacity
+					i = 20
+					m.arrImages[i].state = true
+					m.arrImages[i].alpha = m.opacity
+				end if
+			end for
+		end if
+		' 	if m.arrImages[i].state = true and i = 0
+		' 		m.arrImages[i].state = false
+		' 		m.arrImages[i].alpha = m.no_opacity
+		' 		i = 3
+		' 		m.arrImages[i].state = true
+		' 		m.arrImages[i].alpha = m.opacity
+		' 	end if
+
+		' 	if m.arrImages[i].state = true and i = 1
+		' 		m.arrImages[i].state = false
+		' 		m.arrImages[i].alpha = m.no_opacity
+		' 		i = 4
+		' 		m.arrImages[i].state = true
+		' 		m.arrImages[i].alpha = m.opacity
+		' 	end if
+		' 	if m.arrImages[i].state = true and i = 2
+		' 		m.arrImages[i].state = false
+		' 		m.arrImages[i].alpha = m.no_opacity
+		' 		i = 5
+		' 		m.arrImages[i].state = true
+		' 		m.arrImages[i].alpha = m.opacity
+		' 	end if
+		' end if
+
+		' if code = 2 ' Up
+		' 	if m.arrImages[i].state = true and i = 3
+		' 		m.arrImages[i].state = false
+		' 		m.arrImages[i].alpha = m.no_opacity
+		' 		i = 0
+		' 		m.arrImages[i].state = true
+		' 		m.arrImages[i].alpha = m.opacity
+		' 	end if
+
+		' 	if m.arrImages[i].state = true and i = 4
+		' 		m.arrImages[i].state = false
+		' 		m.arrImages[i].alpha = m.no_opacity
+		' 		i = 1
+		' 		m.arrImages[i].state = true
+		' 		m.arrImages[i].alpha = m.opacity
+		' 	end if
+		' 	if m.arrImages[i].state = true and i = 5
+		' 		m.arrImages[i].state = false
+		' 		m.arrImages[i].alpha = m.no_opacity
+		' 		i = 2
+		' 		m.arrImages[i].state = true
+		' 		m.arrImages[i].alpha = m.opacity
+		' 	end if
+
 	end function
 
 end function
