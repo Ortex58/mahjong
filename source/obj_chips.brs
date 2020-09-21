@@ -32,10 +32,7 @@ function obj_chips(object)
 					m.arrImages[i].index = 1
 				end if
 			end if
-			'print m.arrImages[0].blocks.up_block
 		end for
-		' m.arrImages[0].state = true
-		' m.arrImages[0].alpha = m.opacity
 	end function
 
 
@@ -48,11 +45,12 @@ function obj_chips(object)
 		col = idx MOD 9
 		row = idx \ 9
 		region = CreateObject("roRegion", bm_tile, col * tile_w, row * tile_h, tile_w, tile_h)
-		region2 = CreateObject("roRegion", bm_tile_selected, col * tile_w, row * tile_h, tile_w, tile_h)
+		region2 = CreateObject("roRegion", bm_tile_selected, 0, 0, bm_tile_selected.GetWidth(), bm_tile_selected.GetHeight())
 		region.SetPretranslation(- tile_w / 2, - tile_h / 2)
-		'region2.SetPretranslation(- tile_w / 2, - tile_h / 2)
+		region2.SetPretranslation(- tile_w / 2, - tile_h / 2)
 		img = m.addAnimatedImage("tile_" + name + "_img", [region, region2], { index:0
 		offset_x: px, offset_y: py, class: className })
+		
 		'TODO apply pz when chip will created  by "createObject"
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
