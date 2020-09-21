@@ -3,51 +3,65 @@ function obj_chips(object)
 	object.opacity = 100
 	object.no_opacity = 255
 	object.arrImages = []
-	'Parse JSON and add to num array
-	levelsFile = "pkg:/config/config.json"
-	m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
-	object.num = m.currentConfig["post"]
+	object.levelsFile = "pkg:/config/config-new.json"
+
 
 	object.onCreate = function(args)
-
+		m.levelConfig = ParseJSON(ReadAsciiFile(m.levelsFile))
+		levelID = 0 'level Type
+		levelData = m.levelConfig[levelID]
+		m.levelData = levelData
 		' Add arr of images to arrImage array
-		arrImage = CreateObject("roArray", 0, true)
-
-		c_x = m.game.getCanvas().GetWidth() - 1255
-		c_y = m.game.getCanvas().GetHeight() - 670
-
-		'Loop add images
-		for i = 0 to m.num.Count() - 1
-			name = "chip" + str(i - Int(i / 6) * 6).trim()
-			m.addChip(name, "chip" + str(i).trim(), c_x + m.num[i].x, c_y + m.num[i].y)
-			m.arrImages[i].row = m.num[i].j
+		c_x = levelData.layout_pos.x
+		c_y = levelData.layout_pos.y
+		for k = 0 to levelData.pos.Count() - 1
+			chipCode = k MOD 42
+			m.addTile(chipCode, str(k), c_x + levelData.pos[k].x, c_y + levelData.pos[k].y, levelData.heights[k], "chip" + str(chipCode).trim())
+			m.arrImages[k].blocks = levelData.blocks[k]
 		end for
-		m.arrImages[0].state = true
-		m.arrImages[0].alpha = m.opacity
+
+		for i = 0 to m.arrImages.Count() - 1
+			up = m.arrImages[i].blocks.up_block[0]
+			right_block = m.arrImages[i].blocks.right_block[0]
+			left_block = m.arrImages[i].blocks.left_block[0]
+			if up = invalid and left_block = invalid and right_block = invalid or left_block <> invalid or right_block <> invalid
+				if left_block <> invalid and right_block <> invalid
+					m.arrImages[i].free = true
+				else
+					m.arrImages[i].free = true
+					m.arrImages[i].index = 1
+				end if
+			end if
+		end for
 	end function
 
-	object.addChip = function(bm_key, img_key, px, py)
-		bm_chip = m.game.getBitmap(bm_key)
-		region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
 
-		'make offset for chip coordinate center (anchor point)
-		region.SetPretranslation(- bm_chip.GetWidth() / 2, - bm_chip.GetHeight() / 2)
-
-		img = m.addImage(img_key + "_img", region, { offset_x: px, offset_y: py })
-
+	'Function create a Chip
+	object.addTile = function(idx, name, px, py, pz, className)
+		bm_tile = m.game.getBitmap("tiles")
+		bm_tile_selected = m.game.getBitmap("selection")
+		tile_w = 60
+		tile_h = 78
+		col = idx MOD 9
+		row = idx \ 9
+		region = CreateObject("roRegion", bm_tile, col * tile_w, row * tile_h, tile_w, tile_h)
+		region2 = CreateObject("roRegion", bm_tile_selected, col * tile_w, row * tile_h, tile_w, tile_h)
+		region.SetPretranslation(- tile_w / 2, - tile_h / 2)
+		region2.SetPretranslation(- tile_w / 2, - tile_h / 2)
+		img = m.addAnimatedImage("tile_" + name + "_img", [region, region2], { index:0
+		offset_x: px, offset_y: py, class: className })
+		
+		'TODO apply pz when chip will created  by "createObject"
 		m.arrImages.Push(img)
 		m.arrImages.Peek().state = false
-		m.arrImages.Peek().row = 0
-	end function
-
-	object.onUpdate = function(dt)
-
-
+		m.arrImages.Peek().blocks = []
+		m.arrImages.Peek().free = false
 	end function
 
 	object.onButton = function(code as integer)
-		for i = 0 to m.arrImages.Count() - 1
-			if code = 5 ' Right
+
+		if code = 5 ' Right
+			for i = 0 to m.arrImages.Count() - 1
 				if m.arrImages[i].state = true
 					m.arrImages[i].state = false
 					m.arrImages[i].alpha = m.no_opacity
@@ -60,10 +74,12 @@ function obj_chips(object)
 						m.arrImages[i].alpha = m.opacity
 					end if
 				end if
-			end if
+			end for
+		end if
 
-			if code = 4 ' Left
-				if m.arrImages[i].state = true and i <> 0
+		if code = 4 ' Left
+			for i = 0 to m.arrImages.Count() - 1
+				if m.arrImages[i].state = true
 					m.arrImages[i].state = false
 					m.arrImages[i].alpha = m.no_opacity
 					i--
@@ -75,74 +91,24 @@ function obj_chips(object)
 						m.arrImages[i].alpha = m.opacity
 					end if
 				end if
-			end if
-		end for
-		if code = 3 ' Down
-			for i = 0 to m.arrImages.Count() - 1
-				if i < 13 and m.arrImages[i].state = true
-					'print m.arrImages[i].row + m.arrImages[i].state
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 12
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
-				if i > 11 and i < 20 and m.arrImages[i].state = true
-					m.arrImages[i].state = false
-					m.arrImages[i].alpha = m.no_opacity
-					i = 20
-					m.arrImages[i].state = true
-					m.arrImages[i].alpha = m.opacity
-				end if
 			end for
 		end if
-		' 	if m.arrImages[i].state = true and i = 0
-		' 		m.arrImages[i].state = false
-		' 		m.arrImages[i].alpha = m.no_opacity
-		' 		i = 3
-		' 		m.arrImages[i].state = true
-		' 		m.arrImages[i].alpha = m.opacity
-		' 	end if
 
-		' 	if m.arrImages[i].state = true and i = 1
-		' 		m.arrImages[i].state = false
-		' 		m.arrImages[i].alpha = m.no_opacity
-		' 		i = 4
-		' 		m.arrImages[i].state = true
-		' 		m.arrImages[i].alpha = m.opacity
-		' 	end if
-		' 	if m.arrImages[i].state = true and i = 2
-		' 		m.arrImages[i].state = false
-		' 		m.arrImages[i].alpha = m.no_opacity
-		' 		i = 5
-		' 		m.arrImages[i].state = true
-		' 		m.arrImages[i].alpha = m.opacity
-		' 	end if
-		' end if
+		if code = 3 ' Down
+			for i = 0 to m.arrImages.Count() - 1
 
-		' if code = 2 ' Up
-		' 	if m.arrImages[i].state = true and i = 3
-		' 		m.arrImages[i].state = false
-		' 		m.arrImages[i].alpha = m.no_opacity
-		' 		i = 0
-		' 		m.arrImages[i].state = true
-		' 		m.arrImages[i].alpha = m.opacity
-		' 	end if
+			end for
+		end if
 
-		' 	if m.arrImages[i].state = true and i = 4
-		' 		m.arrImages[i].state = false
-		' 		m.arrImages[i].alpha = m.no_opacity
-		' 		i = 1
-		' 		m.arrImages[i].state = true
-		' 		m.arrImages[i].alpha = m.opacity
-		' 	end if
-		' 	if m.arrImages[i].state = true and i = 5
-		' 		m.arrImages[i].state = false
-		' 		m.arrImages[i].alpha = m.no_opacity
-		' 		i = 2
-		' 		m.arrImages[i].state = true
-		' 		m.arrImages[i].alpha = m.opacity
-		' 	end if
+		if code = 2 ' Up
+			for i = 0 to m.arrImages.Count() - 1
+
+			end for
+		end if
+
+		if code = 0 then
+			m.game.changeRoom("room_menu")
+		end if
 
 	end function
 
