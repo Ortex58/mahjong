@@ -3,7 +3,7 @@ function room_menu(object)
   object.opacity = 150
   object.no_opacity = 255
   object.arrBoards = []
-
+  object.countBoard = 0
   'Parse JSON and add to num array
   levelsFile = "pkg:/config/config-new.json"
   m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
@@ -35,24 +35,22 @@ function room_menu(object)
     m.arrBoards[0].state = true
     m.arrBoards[0].alpha = m.no_opacity
 
-    
+
     btn_Audio = m.game.getBitmap("but_audio")
     audio_w = 80
-		audio_h = 73
-		width = btn_Audio.GetWidth()
-		height = btn_Audio.GetHeight()
-		region = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
-		region.SetPretranslation(- audio_w / 2, - audio_h / 2)
-		m.addImage("button_Audio", region, { offset_x: 1200, offset_y: 80})
+    audio_h = 73
+    width = btn_Audio.GetWidth()
+    height = btn_Audio.GetHeight()
+    region = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
+    region.SetPretranslation(- audio_w / 2, - audio_h / 2)
+    m.addImage("button_Audio", region, { offset_x: 1200, offset_y: 80 })
   end function
 
   'Function create a boards level
   object.addLevel = function(bm_key, img_key, px, py)
     bm_chip = m.game.getBitmap(bm_key)
     region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
-    'make offset for chip coordinate center (anchor point)
     region.SetPretranslation(- bm_chip.GetWidth() / 2, - bm_chip.GetHeight() / 2)
-
     img = m.addImage(img_key + "_img", region, { offset_x: px, offset_y: py })
     m.arrBoards.Push(img)
     m.arrBoards.Peek().state = false
@@ -72,22 +70,38 @@ function room_menu(object)
   object.onDrawEnd = function(canvas)
     font1 = m.game.getFont("font1_60")
     font2 = m.game.getFont("font2_25")
-
     DrawText(canvas, "SELECT A LEVEL", canvas.GetWidth() / 2, canvas.GetHeight() - 670, font1, "center", &hFFFFFFFF)
 
-    DrawText(canvas, m.arrBoards[0].board_difficulty, 400, 213, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[1].board_difficulty, 630, 213, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[2].board_difficulty, 860, 213, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[3].board_difficulty, 400, 447, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[4].board_difficulty, 630, 447, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[5].board_difficulty, 860, 447, font2, "center", &hFFFFFFFF)
+    x_d = 400
+    y_d = 213
+    x_l = 400
+    y_l = 355
+    for i = 0 to m.arrBoards.Count() - 1
+      DrawText(canvas, m.arrBoards[i].board_difficulty, x_d, y_d, font2, "center", &hFFFFFFFF)
+      DrawText(canvas, m.arrBoards[i].board_label, x_l, y_l, font2, "center", &hFFFFFFFF)
+      x_d += 230
+      x_l += 230
+      if i = 2
+        x_d = 400
+        y_d = 447
+        x_l = 400
+        y_l = 590
+      end if
+    end for
 
-    DrawText(canvas, m.arrBoards[0].board_label, 400, 355, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[1].board_label, 630, 355, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[2].board_label, 860, 355, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[3].board_label, 400, 590, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[4].board_label, 630, 590, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, m.arrBoards[5].board_label, 860, 590, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[0].board_difficulty, 400, 213, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[1].board_difficulty, 630, 213, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[2].board_difficulty, 860, 213, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[3].board_difficulty, 400, 447, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[4].board_difficulty, 630, 447, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[5].board_difficulty, 860, 447, font2, "center", &hFFFFFFFF)
+
+    ' DrawText(canvas, m.arrBoards[0].board_label, 400, 355, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[1].board_label, 630, 355, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[2].board_label, 860, 355, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[3].board_label, 400, 590, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[4].board_label, 630, 590, font2, "center", &hFFFFFFFF)
+    ' DrawText(canvas, m.arrBoards[5].board_label, 860, 590, font2, "center", &hFFFFFFFF)
   end function
 
   object.onButton = function(code as integer)
@@ -96,122 +110,45 @@ function room_menu(object)
       m.game.changeRoom("room_lobby")
     end if
 
+    
     if code = 5 ' Right
-      for i = 0 to m.arrBoards.Count() - 1
-        if m.arrBoards[i].state = true
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i++
-          if m.arrBoards.Count() = i
-            m.arrBoards[0].state = true
-            m.arrBoards[0].alpha = m.no_opacity
-          else
-            m.arrBoards[i].state = true
-            m.arrBoards[i].alpha = m.no_opacity
-          end if
+      if m.arrBoards.[m.countBoard].state = true
+        m.arrBoards[m.countBoard].state = false
+        m.arrBoards[m.countBoard].alpha = m.opacity
+        m.countBoard++
+        if m.arrBoards.Count() = m.countBoard 
+          m.arrBoards[0].state = true
+          m.arrBoards[0].alpha = m.no_opacity
+          m.countBoard = 0
         end if
-      end for
+        m.arrBoards[m.countBoard].state = true
+        m.arrBoards[m.countBoard].alpha = m.no_opacity
+      end if
     end if
 
     if code = 4 ' Left
-      for i = 0 to m.arrBoards.Count() - 1
-        if m.arrBoards[i].state = true and i <> 0
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i--
-          if m.arrBoards.Count() = i
-            m.arrBoards[0].state = true
-            m.arrBoards[0].alpha = m.no_opacity
-          else
-            m.arrBoards[i].state = true
-            m.arrBoards[i].alpha = m.no_opacity
-          end if
-        end if
-      end for
+      if m.arrBoards[m.countBoard].state = true AND m.countBoard = 0
+        m.countBoard = m.arrBoards.Count() - 1
+        m.arrBoards[0].state = false
+        m.arrBoards[0].alpha = m.opacity
+        m.countBoard = m.arrBoards.Count() - 1
+        m.arrBoards[m.countBoard].state = true
+        m.arrBoards[m.countBoard].alpha = m.no_opacity
+      else if m.countBoard > 0 AND m.arrBoards[m.countBoard].state = true
+        m.arrBoards[m.countBoard].state = false
+        m.arrBoards[m.countBoard].alpha = m.opacity
+        m.countBoard--
+        m.arrBoards[m.countBoard].state = true
+        m.arrBoards[m.countBoard].alpha = m.no_opacity
+      end if
     end if
 
     if code = 3 ' Down
-      for i = 0 to m.arrBoards.Count() - 1
-        if m.arrBoards[i].state = true and i = 0
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 3
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 1
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 4
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 2
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 5
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 3
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 0
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 4
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 1
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 5
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 2
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        end if
-      end for
+    
     end if
 
     if code = 2 ' Up
-      for i = 0 to m.arrBoards.Count() - 1
-        if m.arrBoards[i].state = true and i = 0
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 3
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 1
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 4
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 2
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 5
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 3
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 0
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 4
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 1
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        else if m.arrBoards[i].state = true and i = 5
-          m.arrBoards[i].state = false
-          m.arrBoards[i].alpha = m.opacity
-          i = 2
-          m.arrBoards[i].state = true
-          m.arrBoards[i].alpha = m.no_opacity
-        end if
-      end for
+     
     end if
     'Back
     if code = 0 then ' Back
