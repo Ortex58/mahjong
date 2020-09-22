@@ -48,7 +48,7 @@ function room_lobby(object)
 		m.addImage("button_Shuffle", region, { offset_x: 1200, offset_y: 480 })
 
 		
-		m.game.createInstance("chips")
+		m.game.createInstance("chips",args)'pass level type with args
 
 	end function
 
