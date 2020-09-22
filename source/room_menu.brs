@@ -88,20 +88,6 @@ function room_menu(object)
         y_l = 590
       end if
     end for
-
-    ' DrawText(canvas, m.arrBoards[0].board_difficulty, 400, 213, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[1].board_difficulty, 630, 213, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[2].board_difficulty, 860, 213, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[3].board_difficulty, 400, 447, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[4].board_difficulty, 630, 447, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[5].board_difficulty, 860, 447, font2, "center", &hFFFFFFFF)
-
-    ' DrawText(canvas, m.arrBoards[0].board_label, 400, 355, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[1].board_label, 630, 355, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[2].board_label, 860, 355, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[3].board_label, 400, 590, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[4].board_label, 630, 590, font2, "center", &hFFFFFFFF)
-    ' DrawText(canvas, m.arrBoards[5].board_label, 860, 590, font2, "center", &hFFFFFFFF)
   end function
 
   object.onButton = function(code as integer)
