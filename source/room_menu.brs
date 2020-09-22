@@ -72,19 +72,16 @@ function room_menu(object)
     font2 = m.game.getFont("font2_25")
     DrawText(canvas, "SELECT A LEVEL", canvas.GetWidth() / 2, canvas.GetHeight() - 670, font1, "center", &hFFFFFFFF)
 
-    x_d = 400
-    y_d = 213
-    x_l = 400
+    x_b = 400
+    y_b = 213
     y_l = 355
     for i = 0 to m.arrBoards.Count() - 1
-      DrawText(canvas, m.arrBoards[i].board_difficulty, x_d, y_d, font2, "center", &hFFFFFFFF)
-      DrawText(canvas, m.arrBoards[i].board_label, x_l, y_l, font2, "center", &hFFFFFFFF)
-      x_d += 230
-      x_l += 230
+      DrawText(canvas, m.arrBoards[i].board_difficulty, x_b, y_b, font2, "center", &hFFFFFFFF)
+      DrawText(canvas, m.arrBoards[i].board_label, x_b, y_l, font2, "center", &hFFFFFFFF)
+      x_b += 230
       if i = 2
-        x_d = 400
-        y_d = 447
-        x_l = 400
+        x_b = 400
+        y_b = 447
         y_l = 590
       end if
     end for
