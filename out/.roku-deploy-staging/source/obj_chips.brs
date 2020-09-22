@@ -40,7 +40,7 @@ function obj_chips(object)
 		arrFree = []
 		for i = 0 to m.arrImages.Count() - 1
 			if m.arrImages[i].free = true
-			arrFree.Push(m.arrImages[i])
+				arrFree.Push(m.arrImages[i])
 			end if
 		end for
 		arrFree[0].state = true
@@ -89,21 +89,23 @@ function obj_chips(object)
 		end if
 
 		if code = 4 ' Left
-			' for i = 0 to m.arrFree.Count() - 1
-			' 	if m.arrFree[i] = 0 and m.arrFree[i].state = true
-			' 		m.arrFree[i].state = false
-			' 		m.arrFree[i].index = 0
-			' 		i = m.arrFree[m.arrFree.Count() - 1]
-			' 		if m.arrFree[i].state = true
-			' 		m.arrFree[i].state = false
-			' 		m.arrFree[i].index = 0
-			' 		i--
-			' 		else
-			' 			m.arrFree[i].state = true
-			' 			m.arrFree[i].index = 1
-			' 		end if
-			' 	end if
-			' end for
+			for i = 0 to m.arrFree.Count() - 1
+				if i = 0 and m.arrFree[i].state = true
+					i = m.arrFree.Count() - 1
+					m.arrFree[0].state = false
+					m.arrFree[0].index = 0
+					i = m.arrFree.Count() - 1
+					m.arrFree[i].state = true
+					m.arrFree[i].index = 1
+				else if i > 0 and m.arrFree[i].state = true
+					m.arrFree[i].state = false
+					m.arrFree[i].index = 0
+					i--
+					m.arrFree[i].state = true
+					m.arrFree[i].index = 1
+				end if
+			
+			end for
 		end if
 
 		if code = 3 ' Down
@@ -121,7 +123,7 @@ function obj_chips(object)
 		if code = 0 then
 			m.game.changeRoom("room_menu")
 		end if
-		
+
 		' if code = 6
 		' 	for i = 0 to m.arrFree.Count() - 1
 		' 		if m.arrFree[i].free = true
