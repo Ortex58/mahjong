@@ -3,10 +3,9 @@ function room_menu(object)
   object.opacity = 150
   object.no_opacity = 255
   object.arrBoards = []
-  object.countBoard = 0
   object.selected_idx = 0
-  object.rows = 0
-  object.cols = 0
+  object.rows = 2
+  object.cols = 3
   'Parse JSON and add to num array
   levelsFile = "pkg:/config/config-new.json"
   m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
@@ -121,25 +120,25 @@ function room_menu(object)
     end if
 
     if code = 3 ' Down
-      if m.selected_idx >= 0 and m.selected_idx <= 2
+      if m.selected_idx >= 0 and m.selected_idx <= m.rows
         m.arrBoards[m.selected_idx].alpha = m.opacity
-        m.selected_idx = m.selected_idx + 3
+        m.selected_idx = m.selected_idx + m.cols
         m.arrBoards[m.selected_idx].alpha = m.no_opacity
-      else if m.selected_idx >= 3
+      else if m.selected_idx >= m.cols
         m.arrBoards[m.selected_idx].alpha = m.opacity
-        m.selected_idx = m.selected_idx - 3
+        m.selected_idx = m.selected_idx - m.cols
         m.arrBoards[m.selected_idx].alpha = m.no_opacity
       end if
     end if
 
     if code = 2 ' Up
-      if m.selected_idx >= 3 and m.selected_idx <= 5
+      if m.selected_idx >= m.cols and m.selected_idx <= m.arrBoards.Count() - 1
         m.arrBoards[m.selected_idx].alpha = m.opacity
-        m.selected_idx = m.selected_idx - 3
+        m.selected_idx = m.selected_idx - m.cols
         m.arrBoards[m.selected_idx].alpha = m.no_opacity
-      else if m.selected_idx <= 2
+      else if m.selected_idx <= m.rows
         m.arrBoards[m.selected_idx].alpha = m.opacity
-        m.selected_idx = m.selected_idx + 3
+        m.selected_idx = m.selected_idx + m.cols
         m.arrBoards[m.selected_idx].alpha = m.no_opacity
       end if
     end if
