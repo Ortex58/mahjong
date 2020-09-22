@@ -33,8 +33,20 @@ function obj_chips(object)
 				end if
 			end if
 		end for
+		m.arrFree = m.addArrFree()
 	end function
 
+	object.addArrFree = function()
+		arrFree = []
+		for i = 0 to m.arrImages.Count() - 1
+			if m.arrImages[i].free = true
+			arrFree.Push(m.arrImages[i])
+			end if
+		end for
+		arrFree[0].state = true
+		arrFree[0].index = 1
+		return arrFree
+	end function
 
 	'Function create a Chip
 	object.addTile = function(idx, name, px, py, pz, className)
@@ -61,37 +73,37 @@ function obj_chips(object)
 	object.onButton = function(code as integer)
 		if code = 5 ' Right
 			for i = 0 to m.arrFree.Count() - 1
-				if m.arrImages[i].state = true and m.arrImages[i].free = true
-					m.arrImages[i].state = false
-					m.arrImages[i].index = 0
+				if m.arrFree[i].state = true
+					m.arrFree[i].state = false
+					m.arrFree[i].index = 0
 					i++
-					if m.arrImages.Count() = i
-						m.arrImages[0].state = true
-						m.arrImages[0].index = 1
+					if m.arrFree.Count() = i
+						m.arrFree[0].state = true
+						m.arrFree[0].index = 1
 					else
-						m.arrImages[i].state = true
-						m.arrImages[i].index = 1
+						m.arrFree[i].state = true
+						m.arrFree[i].index = 1
 					end if
 				end if
 			end for
 		end if
 
 		if code = 4 ' Left
-		' 	for i = 0 to m.arrFree.Count() - 1
-		' 		if m.arrFree[i].state = true
-		' 			m.arrFree[i].state = false
-		' 			m.arrFree[i].index = 0
-		' 			i--
-		' 			if 0 = i
-		' 				i = m.arrFree.Count() - 1
-		' 				m.arrFree.[i].state = true
-		' 				m.arrFree.[i].index = 1
-		' 			else
-		' 				m.arrFree[i].state = true
-		' 				m.arrFree[i].index = 1
-		' 			end if
-		' 		end if
-		' 	end for
+			' for i = 0 to m.arrFree.Count() - 1
+			' 	if m.arrFree[i] = 0 and m.arrFree[i].state = true
+			' 		m.arrFree[i].state = false
+			' 		m.arrFree[i].index = 0
+			' 		i = m.arrFree[m.arrFree.Count() - 1]
+			' 		if m.arrFree[i].state = true
+			' 		m.arrFree[i].state = false
+			' 		m.arrFree[i].index = 0
+			' 		i--
+			' 		else
+			' 			m.arrFree[i].state = true
+			' 			m.arrFree[i].index = 1
+			' 		end if
+			' 	end if
+			' end for
 		end if
 
 		if code = 3 ' Down
