@@ -2,128 +2,135 @@ function obj_chips(object)
 
 	object.opacity = 100
 	object.no_opacity = 255
-	object.arrImages = []
+	object.arrTiles = []
 	object.levelsFile = "pkg:/config/config-new.json"
+	object.selTile_idx = -1
 
 
+	'********************************************************************
+	'	interface methods
+	'********************************************************************
 	object.onCreate = function(args)
 		m.levelConfig = ParseJSON(ReadAsciiFile(m.levelsFile))
-		levelID = 0 'level Type
+		
+		'TODO get level Type from args
+		levelID = args.level
+		levelID = 0 'DEBUG level Type
+
 		levelData = m.levelConfig[levelID]
 		m.levelData = levelData
 		' Add arr of images to arrImage array
 		c_x = levelData.layout_pos.x
 		c_y = levelData.layout_pos.y
 		for k = levelData.pos.Count() - 1 to 0 Step -1
-			chipCode = k MOD 42
-			tileItem = m.addTile(chipCode, c_x + levelData.pos[k].x, c_y + levelData.pos[k].y, levelData.heights[k])
-			tileItem.blocks = levelData.blocks[k]
+			chipCode = k MOD 42 'REMOVE and use shuffle!
+
+			px = c_x + levelData.pos[k].x
+			py = c_y + levelData.pos[k].y
+			pz = levelData.heights[k]
+
+			tileItem = m.game.createInstance("tile",{type:chipCode,depth:-pz,id:k})
+			tileItem.x = px
+			tileItem.y = py
+			tileItem.setBlocks(levelData.blocks[k])
+			tileItem.setNeighbours(levelData.blocks_list[k]) 'TODO add neighbours Data
+
+			m.arrTiles.Push(tileItem)
 		end for
-		m.arrImages.Reverse()
+		m.arrTiles.Reverse()
+		
 
-		' Give elements who a not blocked
-		for i = 0 to m.arrImages.Count() - 1
-			up = m.arrImages[i].blocks.up_block[0]
-			right_block = m.arrImages[i].blocks.right_block[0]
-			left_block = m.arrImages[i].blocks.left_block[0]
-			if up = invalid and left_block = invalid and right_block = invalid or left_block <> invalid or right_block <> invalid
-				if left_block <> invalid and right_block <> invalid
-					m.arrImages[i].free = false
-				else
-					m.arrImages[i].free = true
-				end if
-			end if
-		end for
-		m.arrFree = m.addArrFree()
-	end function
+		'TODO
+		m.selTile_idx = 0
+		m.arrTiles[m.selTile_idx].setSelected(true)
 
-	object.addArrFree = function()
-		arrFree = []
-		for i = 0 to m.arrImages.Count() - 1
-			if m.arrImages[i].free = true
-				arrFree.Push(m.arrImages[i])
-			end if
-		end for
-		arrFree[0].state = true
-		return arrFree
-	end function
-
-	object.addTile = function(idx, px, py, pz) as Dynamic
-		tileItem = m.game.createInstance("tile",{type:idx,depth:-pz})
-		tileItem.x = px
-		tileItem.y = py
-
-		'TODO apply pz when chip will created  by "createObject"
-		m.arrImages.Push(tileItem)
-		m.arrImages.Peek().state = false
-		m.arrImages.Peek().blocks = []
-		m.arrImages.Peek().free = false
-
-		return tileItem
+		
 	end function
 
 	object.onButton = function(code as integer)
-		if code = 5 ' Right
-			for i = 0 to m.arrFree.Count() - 1
-				if m.arrFree[i].state = true
-					m.arrFree[i].state = false
-					m.arrFree[i].setSelected(false)
-					i++
-					if m.arrFree.Count() = i
-						m.arrFree[0].state = true
-						m.arrFree[i].setSelected(true)
-					else
-						m.arrFree[i].state = true
-						m.arrFree[i].setSelected(true)
-					end if
-				end if
-			end for
-		end if
-
-		if code = 4 ' Left
-			for i = 0 to m.arrFree.Count() - 1
-				if i = 0 and m.arrFree[i].state = true
-					i = m.arrFree.Count() - 1
-					m.arrFree[0].state = false
-					m.arrFree[0].index = 0
-					i = m.arrFree.Count() - 1
-					m.arrFree[i].state = true
-					m.arrFree[i].index = 1
-				else if i > 0 and m.arrFree[i].state = true
-					m.arrFree[i].state = false
-					m.arrFree[i].index = 0
-					i--
-					m.arrFree[i].state = true
-					m.arrFree[i].index = 1
-				end if
-			
-			end for
-		end if
-
-		if code = 3 ' Down
-			for i = 0 to m.arrImages.Count() - 1
-
-			end for
-		end if
-
-		if code = 2 ' Up
-			for i = 0 to m.arrImages.Count() - 1
-
-			end for
+		if code >= 0 AND code <= 5 ' Right
+			m.trySelectTile(code)
 		end if
 
 		if code = 0 then
 			m.game.changeRoom("room_menu")
 		end if
 
-		' if code = 6
-		' 	for i = 0 to m.arrFree.Count() - 1
-		' 		if m.arrFree[i].free = true
-		' 			m.arrFree[i].index = 1
-		' 		end if
-		' 	end for
-		' end if
+		if code = 6
+			m.arrTiles[m.selTile_idx].setSelected(NOT m.arrTiles[m.selTile_idx].isSelected())
+		end if
 
 	end function
 
+
+	'********************************************************************
+	' public methods
+	'********************************************************************
+	object.shuffle = function()
+		'utilize tile types and randomize it on field
+	end function
+
+	object.showHint = function() as boolean
+		'calculate aveilable pairs on field and hightlight them
+		return false
+	end function
+
+	'********************************************************************
+	' private methods
+	'********************************************************************
+	object.trySelectTile = function(_dir) as boolean
+
+		curr_tile = m.arrTiles[m.selTile_idx]
+
+		'TODO: add recursive search on field
+
+		neighbourID = curr_tile.getNeighbour(_dir)
+
+		if neighbourID >= 0 
+			neighbour = m.arrTiles[neighbourID]
+			curr_tile.setSelected(false)
+			neighbour.setSelected(true)
+			m.selTile_idx = neighbourID
+
+			print "tile ";neighbourID.toStr();" blocked = ";m.isBlocked(neighbourID)
+
+			return true
+		end if
+
+
+		return false
+	end function
+	'********************************************************************
+	'	helpers
+	'********************************************************************
+
+	'check if tile blocked by it`s index
+	object.isBlocked = function(idx) as boolean
+		curr_tile = m.arrTiles[idx]
+		blockersDIR = curr_tile.getBlocksList()
+		if m.arrHasActive(blockersDIR[2]) OR m.arrHasActive(blockersDIR[0]) AND m.arrHasActive(blockersDIR[1]) then
+			return true ' blocked by upper layer
+		end if
+
+		return false
+	end function
+
+	'check tiles present on field
+	'input may be tile index or array of tile indexes
+	object.arrHasActive = function(arr) as boolean
+		if NOT IsValid(arr) return false
+
+		if IsArray(arr) then
+			for i = 0 to arr.Count() - 1
+				tileID = arr[i]
+				if m.arrTiles[tileID].enabled then return true
+			end for
+		else
+			return m.arrTiles[arr].enabled
+		end if
+
+		return false
+	end function
+
+	
 end function

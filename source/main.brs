@@ -22,6 +22,7 @@ sub Main()
 	'load font
 	game.loadFont("font1_60", "TradeGothic LT CondEighteen", 60, false, false)
 	game.loadFont("font2_25", "TradeGothic LT CondEighteen", 25, false, false)
+	game.loadFont("font3_12", "TradeGothic LT CondEighteen", 12, false, false)
 
 	'Load room
 	game.defineRoom("room_lobby", room_lobby)
@@ -39,14 +40,28 @@ sub Main()
 
 end sub
 
+Function IsValid(value As Dynamic) As Boolean
+    Return Type(value) <> "<uninitialized>" And value <> invalid
+End Function
+
+Function IsArray(value As Dynamic) As Boolean
+    Return IsValid(value) And GetInterface(value, "ifArray") <> invalid
+End Function
+
+Function IsObject(value As Dynamic) As Boolean
+    Return IsValid(value) And GetInterface(value, "ifAssociativeArray") <> invalid
+End Function
+
+
 Function GetConstants() as object
 	c = {}
+	c.DEBUG = true
 	c.TILE_W = 60
 	c.TILE_H = 78
 	c.TILE_COL_NUM = 9
 	c.SELECT_OFF_X = -5
 	c.SELECT_OFF_Y = -14
-
+	c.TILES_COUNT = 42
 
 	return c
 End Function

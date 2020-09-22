@@ -2,6 +2,11 @@ function tile(object)
     object.const = GetConstants()
     object.type = 0
 
+    object.left_block = invalid
+    object.right_block = invalid
+    object.up_block = invalid
+
+    object._neighbours = {"2":-1, "3":-1, "4":-1, "5":-1}
 
     object.onCreate = function(args)
         bm_tile = m.game.getBitmap("tiles")
@@ -18,7 +23,19 @@ function tile(object)
         if args.type <> invalid then m.setType(args.type)
         if args.depth <> invalid then m.depth = args.depth
 
+        m.idx = args.id
+
         m.setSelected(false)
+    end function
+
+    object.onDrawEnd = function(canvas)
+        if m.const.DEBUG
+            font = m.game.getFont("font3_12")
+            DrawText(canvas, "id:"+str(m.idx), m.x-4, m.y-14, font, "center", &h00FF00FF)
+            DrawText(canvas, "id:"+str(m.idx), m.x-5, m.y-15, font, "center", &h000000FF)
+        end if
+        
+    
     end function
 
     object.setType = function(pType as integer)
@@ -33,6 +50,35 @@ function tile(object)
 
     object.setSelected = function(isSelected as boolean)
         m.select.enabled = isSelected
+    end function
+
+    object.isSelected = function() as boolean
+        return m.select.enabled
+    end function
+
+    object.setBlocks = function(bData As Dynamic)
+        if NOT IsObject(bData) then return 0
+        m.left_block  = bData.left_block
+        m.right_block = bData.right_block
+        m.up_block    = bData.up_block
+    end function
+
+    object.getBlocksList = function() as Dynamic
+        ret = [m.left_block,m.right_block,m.up_block]
+        return ret
+    end function
+
+    object.setNeighbours = function(nData)
+        'map neighbours data to direction array
+        if nData.u <> invalid then m._neighbours["2"] = nData.u 'up
+        if nData.d <> invalid then m._neighbours["3"] = nData.d 'down
+        if nData.l <> invalid then m._neighbours["4"] = nData.l 'left
+        if nData.r <> invalid then m._neighbours["5"] = nData.r 'right
+    end function
+
+    object.getNeighbour = function(_side as integer) as integer
+        side_key = _side.ToStr()
+        return m._neighbours[side_key]
     end function
     
 end function
