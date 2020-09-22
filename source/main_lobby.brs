@@ -61,11 +61,11 @@ function room_lobby(object)
 	end function
 
 	object.onDrawEnd = function(canvas)
-    font2 = m.game.getFont("font2_25")
+		font2 = m.game.getFont("font2_25")
 
-    DrawText(canvas, "SCORE 0", 200, 20, font2, "center", &hFFFFFFFF)
-    DrawText(canvas, "TIME 500", 400, 20, font2, "center", &hFFFFFFFF)
-  end function
+		DrawText(canvas, "SCORE 0", 200, 20, font2, "center", &hFFFFFFFF)
+		DrawText(canvas, "TIME 500", 400, 20, font2, "center", &hFFFFFFFF)
+	end function
 
 	object.onButton = function(button)
 		

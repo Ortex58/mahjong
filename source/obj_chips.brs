@@ -14,11 +14,12 @@ function obj_chips(object)
 		' Add arr of images to arrImage array
 		c_x = levelData.layout_pos.x
 		c_y = levelData.layout_pos.y
-		for k = 0 to levelData.pos.Count() - 1
+		for k = levelData.pos.Count() - 1 to 0 Step -1
 			chipCode = k MOD 42
-			m.addTile(chipCode, str(k), c_x + levelData.pos[k].x, c_y + levelData.pos[k].y, levelData.heights[k], "chip" + str(chipCode).trim())
-			m.arrImages[k].blocks = levelData.blocks[k]
+			tileItem = m.addTile(chipCode, c_x + levelData.pos[k].x, c_y + levelData.pos[k].y, levelData.heights[k])
+			tileItem.blocks = levelData.blocks[k]
 		end for
+		m.arrImages.Reverse()
 
 		' Give elements who a not blocked
 		for i = 0 to m.arrImages.Count() - 1
@@ -44,30 +45,21 @@ function obj_chips(object)
 			end if
 		end for
 		arrFree[0].state = true
-		arrFree[0].index = 1
 		return arrFree
 	end function
 
-	'Function create a Chip
-	object.addTile = function(idx, name, px, py, pz, className)
-		bm_tile = m.game.getBitmap("tiles")
-		bm_tile_selected = m.game.getBitmap("selection")
-		tile_w = 60
-		tile_h = 78
-		col = idx MOD 9
-		row = idx \ 9
-		region = CreateObject("roRegion", bm_tile, col * tile_w, row * tile_h, tile_w, tile_h)
-		region2 = CreateObject("roRegion", bm_tile_selected, col * tile_w, row * tile_h, tile_w, tile_h)
-		region.SetPretranslation(- tile_w / 2, - tile_h / 2)
-		region2.SetPretranslation(- tile_w / 2, - tile_h / 2)
-		img = m.addAnimatedImage("tile_" + name + "_img", [region, region2], { index: 0
-		offset_x: px, offset_y: py, class: className })
+	object.addTile = function(idx, px, py, pz) as Dynamic
+		tileItem = m.game.createInstance("tile",{type:idx,depth:-pz})
+		tileItem.x = px
+		tileItem.y = py
 
 		'TODO apply pz when chip will created  by "createObject"
-		m.arrImages.Push(img)
+		m.arrImages.Push(tileItem)
 		m.arrImages.Peek().state = false
 		m.arrImages.Peek().blocks = []
 		m.arrImages.Peek().free = false
+
+		return tileItem
 	end function
 
 	object.onButton = function(code as integer)
@@ -75,14 +67,14 @@ function obj_chips(object)
 			for i = 0 to m.arrFree.Count() - 1
 				if m.arrFree[i].state = true
 					m.arrFree[i].state = false
-					m.arrFree[i].index = 0
+					m.arrFree[i].setSelected(false)
 					i++
 					if m.arrFree.Count() = i
 						m.arrFree[0].state = true
-						m.arrFree[0].index = 1
+						m.arrFree[i].setSelected(true)
 					else
 						m.arrFree[i].state = true
-						m.arrFree[i].index = 1
+						m.arrFree[i].setSelected(true)
 					end if
 				end if
 			end for

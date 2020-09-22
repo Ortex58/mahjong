@@ -6,7 +6,7 @@ sub Main()
 	game.loadBitmap("menu_bg", "pkg:/sprites/bg_menu.jpg")
 	game.loadBitmap("game_bg", "pkg:/sprites/bg_game.jpg")
 	game.loadBitmap("tiles", "pkg:/sprites/tiles.png")
-	game.loadBitmap("selection", "pkg:/sprites/tiles_selected.png")
+	game.loadBitmap("selection", "pkg:/sprites/selection.png")
 	game.loadBitmap("but_audio", "pkg:/sprites/audio_icon.png")
 	game.loadBitmap("but_play", "pkg:/sprites/but_play.png")
 	game.loadBitmap("but_hint", "pkg:/sprites/but_hint.png")
@@ -29,6 +29,7 @@ sub Main()
 	game.defineRoom("room_start", room_start)
 	'Chips
 	game.defineObject("chips", obj_chips)
+	game.defineObject("tile", tile)
 
 	'Sellect room
 	game.changeRoom("room_lobby")
@@ -37,3 +38,15 @@ sub Main()
 	game.Play()
 
 end sub
+
+Function GetConstants() as object
+	c = {}
+	c.TILE_W = 60
+	c.TILE_H = 78
+	c.TILE_COL_NUM = 9
+	c.SELECT_OFF_X = -5
+	c.SELECT_OFF_Y = -14
+
+
+	return c
+End Function
