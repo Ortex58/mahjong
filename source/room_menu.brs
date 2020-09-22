@@ -4,6 +4,9 @@ function room_menu(object)
   object.no_opacity = 255
   object.arrBoards = []
   object.countBoard = 0
+  object.selected_idx = 0
+  object.rows = 0
+  object.cols = 0
   'Parse JSON and add to num array
   levelsFile = "pkg:/config/config-new.json"
   m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
@@ -32,7 +35,7 @@ function room_menu(object)
       m.arrBoards[i].board_label = m.num[i].["label"]
       m.arrBoards[i].layout_pos = m.num[i].["layout_pos"]
     end for
-    m.arrBoards[0].state = true
+    'm.arrBoards[0].state = true
     m.arrBoards[0].alpha = m.no_opacity
 
 
@@ -81,7 +84,7 @@ function room_menu(object)
       if i MOD 3 = 2
         x_b = 400
         y_b += 234
-        y_l += 234 
+        y_l += 234
       end if
     end for
   end function
@@ -91,46 +94,54 @@ function room_menu(object)
     if code = 6 then
       m.game.changeRoom("room_lobby")
     end if
-
     
     if code = 5 ' Right
-      if m.arrBoards.[m.countBoard].state = true
-        m.arrBoards[m.countBoard].state = false
-        m.arrBoards[m.countBoard].alpha = m.opacity
-        m.countBoard++
-        if m.arrBoards.Count() = m.countBoard 
-          m.arrBoards[0].state = true
+      if m.selected_idx < m.arrBoards.Count()
+        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.selected_idx++
+        if m.arrBoards.Count() = m.selected_idx
           m.arrBoards[0].alpha = m.no_opacity
-          m.countBoard = 0
+          m.selected_idx = 0
         end if
-        m.arrBoards[m.countBoard].state = true
-        m.arrBoards[m.countBoard].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.no_opacity
       end if
     end if
 
     if code = 4 ' Left
-      if m.arrBoards[m.countBoard].state = true AND m.countBoard = 0
-        m.countBoard = m.arrBoards.Count() - 1
-        m.arrBoards[0].state = false
+      if m.selected_idx = 0
+        m.selected_idx = m.arrBoards.Count() - 1
         m.arrBoards[0].alpha = m.opacity
-        m.countBoard = m.arrBoards.Count() - 1
-        m.arrBoards[m.countBoard].state = true
-        m.arrBoards[m.countBoard].alpha = m.no_opacity
-      else if m.countBoard > 0 AND m.arrBoards[m.countBoard].state = true
-        m.arrBoards[m.countBoard].state = false
-        m.arrBoards[m.countBoard].alpha = m.opacity
-        m.countBoard--
-        m.arrBoards[m.countBoard].state = true
-        m.arrBoards[m.countBoard].alpha = m.no_opacity
+        m.selected_idx = m.arrBoards.Count() - 1
+        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+      else if m.selected_idx > 0
+        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.selected_idx--
+        m.arrBoards[m.selected_idx].alpha = m.no_opacity
       end if
     end if
 
     if code = 3 ' Down
-    
+      if m.selected_idx >= 0 and m.selected_idx <= 2
+        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.selected_idx = m.selected_idx + 3
+        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+      else if m.selected_idx >= 3
+        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.selected_idx = m.selected_idx - 3
+        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+      end if
     end if
 
     if code = 2 ' Up
-     
+      if m.selected_idx >= 3 and m.selected_idx <= 5
+        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.selected_idx = m.selected_idx - 3
+        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+      else if m.selected_idx <= 2
+        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.selected_idx = m.selected_idx + 3
+        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+      end if
     end if
     'Back
     if code = 0 then ' Back
