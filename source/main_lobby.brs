@@ -18,13 +18,13 @@ function room_lobby(object)
 		
 		'Audio Icon
 		btn_Audio = m.game.getBitmap("but_audio")
-    	audio_w = 80
+    audio_w = 80
 		audio_h = 73
 		width = btn_Audio.GetWidth()
 		height = btn_Audio.GetHeight()
 		region = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
 		region.SetPretranslation(- audio_w / 2, - audio_h / 2)
-		m.addImage("button_Audio", region, { offset_x: 1195, offset_y: 80})
+		m.addImage("button_Audio", region, { offset_x: 1205, offset_y: 80})
 
 		btn_Hint = m.game.getBitmap("but_hint")
 		width = btn_Hint.GetWidth()
@@ -63,8 +63,8 @@ function room_lobby(object)
 	object.onDrawEnd = function(canvas)
 		font2 = m.game.getFont("font2_25")
 
-		DrawText(canvas, "SCORE 0", 200, 20, font2, "center", &hFFFFFFFF)
-		DrawText(canvas, "TIME 500", 400, 20, font2, "center", &hFFFFFFFF)
+		DrawText(canvas, "SCORE 0", 300, 50, font2, "center", &hFFFFFFFF)
+		DrawText(canvas, "TIME 500", 500, 50, font2, "center", &hFFFFFFFF)
 	end function
 
 	object.onButton = function(button)

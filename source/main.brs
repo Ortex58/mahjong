@@ -59,8 +59,8 @@ Function GetConstants() as object
 	c.TILE_W = 60
 	c.TILE_H = 78
 	c.TILE_COL_NUM = 9
-	c.SELECT_OFF_X = -5
-	c.SELECT_OFF_Y = -14
+	c.SELECT_OFF_X = -8
+	c.SELECT_OFF_Y = -17
 	c.TILES_COUNT = 42
 
 	return c

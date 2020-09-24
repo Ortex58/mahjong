@@ -45,7 +45,7 @@ function room_menu(object)
     height = btn_Audio.GetHeight()
     region = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
     region.SetPretranslation(- audio_w / 2, - audio_h / 2)
-    m.addImage("button_Audio", region, { offset_x: 1200, offset_y: 80 })
+    m.addImage("button_Audio", region, { offset_x: 1205, offset_y: 80 })
   end function
 
   'Function create a boards level
