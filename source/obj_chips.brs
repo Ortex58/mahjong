@@ -3,12 +3,9 @@ function obj_chips(object)
 	object.activeCount = 0
 	object.aveilableCount = 0
 
-	object.opacity = 100
-	object.no_opacity = 255
 	object.arrTiles = []
 	object.levelsFile = "pkg:/config/config-new.json"
 	object.selTile_idx = -1
-
 
 	'********************************************************************
 	'	interface methods
@@ -51,8 +48,10 @@ function obj_chips(object)
 	end function
 
 	object.onButton = function(code as integer)
-		if code > 0 AND code <= 5 'arrow codes
-			m.trySelectTile(code)
+		if code = 4 OR code = 5 'arrow codes horizontal
+			m.trySelectTile(m.selTile_idx,code,false)
+		elseif code = 2 OR code = 3 'arrow codes vertical
+			m.trySelectTile(m.selTile_idx,code,true)
 		end if
 
 		if code = 0 then
@@ -60,7 +59,9 @@ function obj_chips(object)
 		end if
 
 		if code = 6
-			m.arrTiles[m.selTile_idx].setSelected(NOT m.arrTiles[m.selTile_idx].isSelected())
+			tileItem = m.arrTiles[m.selTile_idx]
+			tileItem.setMarked(NOT tileItem.isMarked())
+			'TODO use "enable" prooerty to disable tile pairs
 			m.updateStats()
 		end if
 
@@ -89,9 +90,9 @@ function obj_chips(object)
 	'********************************************************************
 	' private methods
 	'********************************************************************
-	object.trySelectTile = function(_dir) as boolean
+	object.trySelectTile = function(base_idx, _dir, row_lookup = false) as boolean
 
-		curr_tile = m.arrTiles[m.selTile_idx]
+		curr_tile = m.arrTiles[base_idx]
 		neighbourID = curr_tile.getNeighbour(_dir)
 
 		'lookup in straight direction
@@ -99,9 +100,15 @@ function obj_chips(object)
 			candidate = m.arrTiles[neighbourID]
 			blockersDIR = candidate.getBlocksList()
 		
-			if m.arrHasActive(blockersDIR[2]) 
+			if m.arrHasActive(blockersDIR[2]) 'check layer above
 				neighbourID = m.arrGetActiveId(blockersDIR[2])
-			elseif m.arrHasActive(blockersDIR[0]) AND m.arrHasActive(blockersDIR[1]) then
+			elseif m.arrHasActive(blockersDIR[0]) AND m.arrHasActive(blockersDIR[1]) 'block by Neighbours 
+
+				if row_lookup AND (m.trySelectTile(neighbourID,4) OR m.trySelectTile(neighbourID,5))
+					curr_tile.setSelected(false)
+					return true
+				end if 
+
 				neighbourID = candidate.getNeighbour(_dir)
 			else
 				curr_tile.setSelected(false)
@@ -110,22 +117,6 @@ function obj_chips(object)
 				return true
 			end if
 		end while
-
-print "last tested: ";str(neighbourID)
-
-		' curr_tile = m.arrTiles[m.selTile_idx]
-		' neighbourID = curr_tile.getNeighbour(_dir)
-
-		' if neighbourID >= 0 
-		' 	neighbour = m.arrTiles[neighbourID]
-		' 	curr_tile.setSelected(false)
-		' 	neighbour.setSelected(true)
-		' 	m.selTile_idx = neighbourID
-
-		' 	print "tile ";neighbourID.toStr();" blocked = ";m.isBlocked(neighbourID)
-			
-		' 	return true
-		' end if
 
 		return false
 	end function
