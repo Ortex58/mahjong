@@ -1,5 +1,8 @@
 function obj_chips(object)
 
+	object.activeCount = 0
+	object.aveilableCount = 0
+
 	object.opacity = 100
 	object.no_opacity = 255
 	object.arrTiles = []
@@ -38,17 +41,17 @@ function obj_chips(object)
 			m.arrTiles.Push(tileItem)
 		end for
 		m.arrTiles.Reverse()
-		
 
+		
 		'TODO
-		m.selTile_idx = 0
+		m.selTile_idx = m.arrTiles.Count()-1
 		m.arrTiles[m.selTile_idx].setSelected(true)
 
-		
+		m.updateStats()
 	end function
 
 	object.onButton = function(code as integer)
-		if code >= 0 AND code <= 5 ' Right
+		if code > 0 AND code <= 5 'arrow codes
 			m.trySelectTile(code)
 		end if
 
@@ -58,8 +61,16 @@ function obj_chips(object)
 
 		if code = 6
 			m.arrTiles[m.selTile_idx].setSelected(NOT m.arrTiles[m.selTile_idx].isSelected())
+			m.updateStats()
 		end if
 
+	end function
+
+	object.onDrawEnd = function(canvas)
+		'TODO move this stats to room draw method
+		font2 = m.game.getFont("font2_25")
+		DrawText(canvas, "active: "+str(m.activeCount), 300, 650, font2, "center", &hFFFFFFFF)
+		DrawText(canvas, "aveilable: "+str(m.aveilableCount), 500, 650, font2, "center", &hFFFFFFFF)
 	end function
 
 
@@ -81,24 +92,52 @@ function obj_chips(object)
 	object.trySelectTile = function(_dir) as boolean
 
 		curr_tile = m.arrTiles[m.selTile_idx]
-
-		'TODO: add recursive search on field
-
 		neighbourID = curr_tile.getNeighbour(_dir)
 
-		if neighbourID >= 0 
-			neighbour = m.arrTiles[neighbourID]
-			curr_tile.setSelected(false)
-			neighbour.setSelected(true)
-			m.selTile_idx = neighbourID
+		'lookup in straight direction
+		while neighbourID >=0
+			candidate = m.arrTiles[neighbourID]
+			blockersDIR = candidate.getBlocksList()
+		
+			if m.arrHasActive(blockersDIR[2]) 
+				neighbourID = m.arrGetActiveId(blockersDIR[2])
+			elseif m.arrHasActive(blockersDIR[0]) AND m.arrHasActive(blockersDIR[1]) then
+				neighbourID = candidate.getNeighbour(_dir)
+			else
+				curr_tile.setSelected(false)
+				candidate.setSelected(true)
+				m.selTile_idx = neighbourID
+				return true
+			end if
+		end while
 
-			print "tile ";neighbourID.toStr();" blocked = ";m.isBlocked(neighbourID)
+print "last tested: ";str(neighbourID)
 
-			return true
-		end if
+		' curr_tile = m.arrTiles[m.selTile_idx]
+		' neighbourID = curr_tile.getNeighbour(_dir)
 
+		' if neighbourID >= 0 
+		' 	neighbour = m.arrTiles[neighbourID]
+		' 	curr_tile.setSelected(false)
+		' 	neighbour.setSelected(true)
+		' 	m.selTile_idx = neighbourID
+
+		' 	print "tile ";neighbourID.toStr();" blocked = ";m.isBlocked(neighbourID)
+			
+		' 	return true
+		' end if
 
 		return false
+	end function
+
+	object.updateStats = function()
+		m.activeCount = 0
+		m.aveilableCount = 0
+		for i = 0 to m.arrTiles.Count() - 1
+			tileItem = m.arrTiles[i]
+			if tileItem.enabled then m.activeCount ++
+			if NOT m.isBlocked(i) then m.aveilableCount ++
+		end for
 	end function
 	'********************************************************************
 	'	helpers
@@ -108,8 +147,11 @@ function obj_chips(object)
 	object.isBlocked = function(idx) as boolean
 		curr_tile = m.arrTiles[idx]
 		blockersDIR = curr_tile.getBlocksList()
-		if m.arrHasActive(blockersDIR[2]) OR m.arrHasActive(blockersDIR[0]) AND m.arrHasActive(blockersDIR[1]) then
-			return true ' blocked by upper layer
+		
+		if m.arrHasActive(blockersDIR[2]) then return true ' blocked by upper layer
+
+		if m.arrHasActive(blockersDIR[0]) AND m.arrHasActive(blockersDIR[1]) then
+			return true ' blocked by 2 neighbours
 		end if
 
 		return false
@@ -126,10 +168,27 @@ function obj_chips(object)
 				if m.arrTiles[tileID].enabled then return true
 			end for
 		else
+			if arr >= m.arrTiles.Count() then return false
+
 			return m.arrTiles[arr].enabled
 		end if
 
 		return false
+	end function
+
+	object.arrGetActiveId = function(arr) as dynamic
+		if NOT IsValid(arr) return -1
+
+		if IsArray(arr) then
+			for i = 0 to arr.Count() - 1
+				tileID = arr[i]
+				if m.arrTiles[tileID].enabled then return tileID
+			end for
+		else
+			if m.arrTiles[arr].enabled then return arr
+		end if
+
+		return -1
 	end function
 
 	
