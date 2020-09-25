@@ -54,11 +54,11 @@ function room_menu(object)
     region = CreateObject("roRegion", bm_chip, 0, 0, bm_chip.GetWidth(), bm_chip.GetHeight())
     region.SetPretranslation(- bm_chip.GetWidth() / 2, - bm_chip.GetHeight() / 2)
     img = m.addImage(img_key + "_img", region, { offset_x: px, offset_y: py })
+    img.state = false
+    img.board_difficulty = ""
+    img.board_label = ""
+    img.layout_pos = ""
     m.arrBoards.Push(img)
-    m.arrBoards.Peek().state = false
-    m.arrBoards.Peek().board_difficulty = ""
-    m.arrBoards.Peek().board_label = ""
-    m.arrBoards.Peek().layout_pos = ""
   end function
 
   object.onUpdate = function(dt)

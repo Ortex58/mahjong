@@ -62,21 +62,32 @@ function obj_chips(object)
 			tileItem = m.arrTiles[m.selTile_idx]
 			' tileItem.setMarked(NOT tileItem.isMarked())
 			if m.equalArr.Count() < 2
-			tileItem.setMarked(not tileItem.isMarked())
-			end if
-			'TODO use "enable" prooerty to disable tile pairs
-			if tileItem.isMarked() AND m.equalArr.Count() < 2
-				m.equalArr.Push(tileItem)
-				print m.equalArr.Count()
-			end if
-			if m.equalArr.Count() > 1
-				if m.equalArr[0].type = m.equalArr[1].type
-					print "is a pair!"
-				else
-					print "is't a pair!"
+				tileItem.setMarked(not tileItem.isMarked())
+
+				'TODO use "enable" prooerty to disable tile pairs
+				if tileItem.isMarked() and m.equalArr.Count() < 2
+					m.equalArr.Push(tileItem)
 					print m.equalArr.Count()
-					m.equalArr.Clear()
-					print m.equalArr.Count()
+				end if
+				if m.equalArr.Count() > 1
+					if m.equalArr[0].type = m.equalArr[1].type
+						print "is a pair!"
+						m.equalArr[0].enabled = false
+						m.equalArr[0].x = -100
+						m.equalArr[1].enabled = false
+						m.equalArr[1].x = -100
+						m.selTile_idx = m.arrTiles.Count() - 1
+						m.arrTiles[m.selTile_idx].setSelected(true)
+						m.updateStats()
+						m.equalArr.Clear()
+					else
+						print "isn't a pair!"
+						m.equalArr[0].skin.alpha = 255
+						m.equalArr[1].skin.alpha = 255
+						m.equalArr.Clear()
+						m.updateStats()
+						print m.equalArr.Count()
+					end if
 				end if
 			end if
 			m.updateStats()
