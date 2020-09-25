@@ -70,7 +70,7 @@ function obj_chips(object)
 					print m.equalArr.Count()
 				end if
 				if m.equalArr.Count() > 1
-					if m.equalArr[0].type = m.equalArr[1].type
+					if m.equalArr[0].type = m.equalArr[1].type and m.equalArr[0].idx <> m.equalArr[1].idx
 						print "is a pair!"
 						m.equalArr[0].enabled = false
 						m.equalArr[0].x = -100
