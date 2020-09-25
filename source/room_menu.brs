@@ -91,7 +91,7 @@ function room_menu(object)
   object.onButton = function(code as integer)
     'Select
     if code = 6 then
-      m.game.changeRoom("room_lobby",{level:m.countBoard})
+      m.game.changeRoom("room_lobby",{level:m.selected_idx})
     end if
     
     if code = 5 ' Right

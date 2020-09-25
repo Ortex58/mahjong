@@ -15,7 +15,7 @@ function obj_chips(object)
 
 		'TODO get level Type from args
 		levelID = args.level
-		levelID = 0 'DEBUG level Type
+		'levelID = 0 'DEBUG level Type
 
 		levelData = m.levelConfig[levelID]
 		m.levelData = levelData
@@ -39,6 +39,16 @@ function obj_chips(object)
 		end for
 		m.arrTiles.Reverse()
 
+		'add relation to below tiles
+		for i = 0 to m.arrTiles.Count() - 1
+			tileItem = m.arrTiles[i]
+			blockersDIR = tileItem.getBlocksList()
+			if m.arrHasActive(blockersDIR[2])
+				tileAboweID = m.arrGetActiveId(blockersDIR[2])
+				tileAbowe = m.arrTiles[tileAboweID]
+				tileAbowe.setBelowNeighbour(i)
+			end if
+		end for
 
 		'TODO
 		m.selTile_idx = m.arrTiles.Count() - 1
@@ -122,6 +132,7 @@ function obj_chips(object)
 
 		curr_tile = m.arrTiles[base_idx]
 		neighbourID = curr_tile.getNeighbour(_dir)
+		neighbourID = m.tileGetLowestActive(neighbourID)
 
 		'lookup in straight direction
 		while neighbourID >= 0
@@ -130,7 +141,7 @@ function obj_chips(object)
 
 			if m.arrHasActive(blockersDIR[2]) 'check layer above
 				neighbourID = m.arrGetActiveId(blockersDIR[2])
-			else if m.arrHasActive(blockersDIR[0]) and m.arrHasActive(blockersDIR[1]) 'block by Neighbours
+			else if NOT candidate.enabled OR (m.arrHasActive(blockersDIR[0]) and m.arrHasActive(blockersDIR[1])) 'block by Neighbours
 
 				if row_lookup and (m.trySelectTile(neighbourID, 4) or m.trySelectTile(neighbourID, 5))
 					curr_tile.setSelected(false)
@@ -138,6 +149,7 @@ function obj_chips(object)
 				end if
 
 				neighbourID = candidate.getNeighbour(_dir)
+				neighbourID = m.tileGetLowestActive(neighbourID)
 			else
 				curr_tile.setSelected(false)
 				candidate.setSelected(true)
@@ -155,7 +167,7 @@ function obj_chips(object)
 		for i = 0 to m.arrTiles.Count() - 1
 			tileItem = m.arrTiles[i]
 			if tileItem.enabled then m.activeCount++
-			if not m.isBlocked(i) then m.aveilableCount++
+			if not m.isBlocked(i) AND tileItem.enabled then m.aveilableCount++
 		end for
 	end function
 	'********************************************************************
@@ -208,6 +220,21 @@ function obj_chips(object)
 		end if
 
 		return -1
+	end function
+
+	object.tileGetLowestActive = function(baseID) as integer
+		retIdx = baseID
+		while retIdx >= 0
+			tileItem = m.arrTiles[retIdx]
+			
+			if  NOT tileItem.enabled
+				retIdx = tileItem.getBlocksList()[3] 'check below neighbour
+			else
+				return retIdx
+			end if
+		end while
+
+		return baseID
 	end function
 
 

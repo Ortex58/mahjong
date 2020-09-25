@@ -5,6 +5,7 @@ function tile(object)
     object.left_block = invalid
     object.right_block = invalid
     object.up_block = invalid
+    object.below_block = -1
 
     object._neighbours = {"2":-1, "3":-1, "4":-1, "5":-1}
 
@@ -75,8 +76,12 @@ function tile(object)
         m.up_block    = bData.up_block
     end function
 
+    object.setBelowNeighbour = function(tileID)
+        m.below_block = tileID
+    end function
+
     object.getBlocksList = function() as Dynamic
-        ret = [m.left_block,m.right_block,m.up_block]
+        ret = [m.left_block,m.right_block,m.up_block,m.below_block]
         return ret
     end function
 
