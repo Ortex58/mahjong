@@ -31,6 +31,7 @@ sub Main()
 	'Chips
 	game.defineObject("chips", obj_chips)
 	game.defineObject("tile", tile)
+	game.defineObject("level", level)
 
 	'Sellect room
 	game.changeRoom("room_menu")
