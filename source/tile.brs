@@ -14,7 +14,7 @@ function tile(object)
         
         m.region = CreateObject("roRegion", bm_tile, 0, 0, m.const.TILE_W, m.const.TILE_H)
         m.region.SetPretranslation(- m.const.TILE_W / 2, - m.const.TILE_H / 2)
-        m.addImage("tile_tex",m.region)
+        m.skin = m.addImage("tile_tex",m.region)
 
         selRegion = CreateObject("roRegion", bm_selected, 0, 0, bm_selected.GetWidth(), bm_selected.GetHeight())
         selRegion.SetPretranslation(- bm_selected.GetWidth() / 2, - bm_selected.GetWidth() / 2)
@@ -54,6 +54,18 @@ function tile(object)
 
     object.isSelected = function() as boolean
         return m.select.enabled
+    end function
+
+    object.setMarked = function(isMarked as boolean)
+        if isMarked
+            m.skin.alpha = 150
+        else
+            m.skin.alpha = 255
+        end if
+    end function
+
+    object.isMarked = function() as boolean
+        return m.skin.alpha < 255
     end function
 
     object.setBlocks = function(bData As Dynamic)
