@@ -7,7 +7,7 @@ function room_menu(object)
   object.rows = 2
   object.cols = 3
   'Parse JSON and add to num array
-  levelsFile = "pkg:/config/config-new.json"
+  levelsFile = "pkg:/config/config-new-2.json"
   m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
   object.num = m.currentConfig
 
@@ -91,12 +91,12 @@ function room_menu(object)
   object.onButton = function(code as integer)
     'Select
     if code = 6 then
-      for i = 0 to m.arrBoards.Count() - 1
-        if m.selected_idx = i
-          level = m.arrBoards[i].board_label
-        end if
-      end for
-      m.game.changeRoom("room_lobby", { level: m.countBoard })
+      ' for i = 0 to m.arrBoards.Count() - 1
+      '   if m.selected_idx = i
+      '     level = m.arrBoards[i].board_label
+      '   end if
+      ' end for
+      m.game.changeRoom("room_lobby", { level: m.selected_idx })
     end if
 
     if code = 5 ' Right

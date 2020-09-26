@@ -4,7 +4,7 @@ function obj_chips(object)
 	object.aveilableCount = 0
 
 	object.arrTiles = []
-	object.levelsFile = "pkg:/config/config-new.json"
+	object.levelsFile = "pkg:/config/config-new-2.json"
 	object.selTile_idx = -1
 
 	'********************************************************************
@@ -15,7 +15,7 @@ function obj_chips(object)
 
 		'TODO get level Type from args
 		levelID = args.level
-		levelID = 0 'DEBUG level Type
+		' levelID = 0 'DEBUG level Type
 
 		levelData = m.levelConfig[levelID]
 		m.levelData = levelData
