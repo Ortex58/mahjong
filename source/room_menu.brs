@@ -91,14 +91,9 @@ function room_menu(object)
   object.onButton = function(code as integer)
     'Select
     if code = 6 then
-      ' for i = 0 to m.arrBoards.Count() - 1
-      '   if m.selected_idx = i
-      '     level = m.arrBoards[i].board_label
-      '   end if
-      ' end for
-      m.game.changeRoom("room_lobby", { level: m.selected_idx })
+      m.game.changeRoom("room_lobby",{level:m.selected_idx})
     end if
-
+    
     if code = 5 ' Right
       if m.selected_idx < m.arrBoards.Count()
         m.arrBoards[m.selected_idx].alpha = m.opacity
