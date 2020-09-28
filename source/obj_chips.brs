@@ -23,8 +23,17 @@ function obj_chips(object)
 		' Add arr of images to arrImage array
 		c_x = levelData.layout_pos.x
 		c_y = levelData.layout_pos.y
-		 for k = levelData.pos.Count() - 1 to 0 step -1
-		chipCode = k MOD 42 'REMOVE and use shuffle!
+		arrType = []
+		for j = levelData.pos.Count() - 1 to 0 step -1
+			chipCode = j MOD 42
+			arrType.Push(chipCode)
+		end for
+		
+		arrType = m.ShuffleArray(arrType)
+
+		for k = levelData.pos.Count() - 1 to 0 step -1
+			' chipCode = k MOD 42 'REMOVE and use shuffle!
+			chipCode = arrType[k]
 
 			px = c_x + levelData.pos[k].x
 			py = c_y + levelData.pos[k].y
@@ -142,7 +151,7 @@ function obj_chips(object)
 
 			if m.arrHasActive(blockersDIR[2]) 'check layer above
 				neighbourID = m.arrGetActiveId(blockersDIR[2])
-			else if NOT candidate.enabled OR (m.arrHasActive(blockersDIR[0]) and m.arrHasActive(blockersDIR[1])) 'block by Neighbours
+			else if not candidate.enabled or (m.arrHasActive(blockersDIR[0]) and m.arrHasActive(blockersDIR[1])) 'block by Neighbours
 
 				if row_lookup and (m.trySelectTile(neighbourID, 4) or m.trySelectTile(neighbourID, 5))
 					curr_tile.setSelected(false)
@@ -168,7 +177,7 @@ function obj_chips(object)
 		for i = 0 to m.arrTiles.Count() - 1
 			tileItem = m.arrTiles[i]
 			if tileItem.enabled then m.activeCount++
-			if not m.isBlocked(i) AND tileItem.enabled then m.aveilableCount++
+			if not m.isBlocked(i) and tileItem.enabled then m.aveilableCount++
 		end for
 	end function
 	'********************************************************************
@@ -227,8 +236,8 @@ function obj_chips(object)
 		retIdx = baseID
 		while retIdx >= 0
 			tileItem = m.arrTiles[retIdx]
-			
-			if  NOT tileItem.enabled
+
+			if not tileItem.enabled
 				retIdx = tileItem.getBlocksList()[3] 'check below neighbour
 			else
 				return retIdx
@@ -238,5 +247,14 @@ function obj_chips(object)
 		return baseID
 	end function
 
+	object.ShuffleArray = function(argArray) as object
+		rndArray = []
+		for i = 0 to argArray.Count() - 1
+			intIndex = Rnd(argArray.Count())
+			rndArray.Push(argArray[intIndex - 1])
+			argArray.Delete(intIndex - 1)
+		next
+		return rndArray
+	end function
 
 end function
