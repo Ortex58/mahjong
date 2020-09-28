@@ -16,7 +16,7 @@ function obj_chips(object)
 		'TODO get level Type from args
 		levelID = args.level
 
-		'levelID = 0 'DEBUG level Type
+		' levelID = 5 'DEBUG level Type
 
 		levelData = m.levelConfig[levelID]
 		m.levelData = levelData
@@ -24,7 +24,6 @@ function obj_chips(object)
 		c_x = levelData.layout_pos.x
 		c_y = levelData.layout_pos.y
 		 for k = levelData.pos.Count() - 1 to 0 step -1
-		' for k = 100 to 0 step -1
 		chipCode = k MOD 42 'REMOVE and use shuffle!
 
 			px = c_x + levelData.pos[k].x
