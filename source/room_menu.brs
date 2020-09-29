@@ -1,5 +1,6 @@
 function room_menu(object)
 
+  object.audio = invalid
   object.opacity = 150
   object.no_opacity = 255
   object.arrBoards = []
@@ -39,12 +40,15 @@ function room_menu(object)
     'Audio
     btn_Audio = m.game.getBitmap("but_audio")
     audio_w = 80
-    audio_h = 73
+    audio_h = 75
     width = btn_Audio.GetWidth()
     height = btn_Audio.GetHeight()
-    region = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
-    region.SetPretranslation(- audio_w / 2, - audio_h / 2)
-    audio = m.addImage("button_Audio", region, { offset_x: 1205, offset_y: 80 })
+    region1 = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
+    region2 = CreateObject("roRegion", btn_Audio, 86, 0, audio_w, audio_h)
+    region1.SetPretranslation(- audio_w / 2, - audio_h / 2)
+    region2.SetPretranslation(- audio_w / 2, - audio_h / 2)
+    m.audio = m.addAnimatedImage("button_Audio", [region1, region2], { offset_x: 1205, offset_y: 80, index: 0 })
+    m.audio.status = false
   end function
 
   'Function create a boards level
@@ -147,7 +151,13 @@ function room_menu(object)
     end if
 
     if code = 10 then ' Volume
-    print "Hello"
+      if m.audio.status = false
+        m.audio.status = true
+        m.audio.index = 1
+      else
+        m.audio.status = false
+        m.audio.index = 0
+      end if
     end if
 
   end function

@@ -1,4 +1,7 @@
 function obj_chips(object)
+	object.opacity = 150
+	object.no_opacity = 255
+	object.select_menu = false
 	object.equalArr = []
 	object.activeCount = 0
 	object.aveilableCount = 0
@@ -30,7 +33,7 @@ function obj_chips(object)
 			chipCode = j MOD m.const.TILES_COUNT
 			arrType.Push(chipCode)
 		end for
-		
+
 		arrType = m.ShuffleArray(arrType)
 
 		for k = levelData.pos.Count() - 1 to 0 step -1
@@ -70,50 +73,59 @@ function obj_chips(object)
 	end function
 
 	object.onButton = function(code as integer)
-		if code = 4 or code = 5 'arrow codes horizontal
-			m.trySelectTile(m.selTile_idx, code, false)
-		else if code = 2 or code = 3 'arrow codes vertical
-			m.trySelectTile(m.selTile_idx, code, true)
+		if code = 10 and m.select_menu = false
+			m.select_menu = true
+			print true
+		else if code = 10 and m.select_menu = true
+			m.select_menu = false
+			print false
 		end if
-
+		if m.select_menu = false
+			if code = 4 or code = 5 'arrow codes horizontal
+				m.trySelectTile(m.selTile_idx, code, false)
+			else if code = 2 or code = 3 'arrow codes vertical
+				m.trySelectTile(m.selTile_idx, code, true)
+			end if
+			if code = 6
+				tileItem = m.arrTiles[m.selTile_idx]
+				' tileItem.setMarked(NOT tileItem.isMarked())
+				if m.equalArr.Count() < 2
+					tileItem.setMarked(not tileItem.isMarked())
+	
+					'TODO use "enable" prooerty to disable tile pairs
+					if tileItem.isMarked() and m.equalArr.Count() < 2
+						m.equalArr.Push(tileItem)
+						print m.equalArr.Count()
+					end if
+					if m.equalArr.Count() > 1
+						if m.equalArr[0].type = m.equalArr[1].type and m.equalArr[0].idx <> m.equalArr[1].idx
+							print "is a pair!"
+							m.equalArr[0].enabled = false
+							m.equalArr[0].x = -100
+							m.equalArr[1].enabled = false
+							m.equalArr[1].x = -100
+							m.selTile_idx = m.arrTiles.Count() - 1
+							m.arrTiles[m.selTile_idx].setSelected(true)
+							m.updateStats()
+							m.equalArr.Clear()
+						else
+							print "isn't a pair!"
+							m.equalArr[0].skin.alpha = 255
+							m.equalArr[1].skin.alpha = 255
+							m.equalArr.Clear()
+							m.updateStats()
+							print m.equalArr.Count()
+						end if
+					end if
+				end if
+				m.updateStats()
+			end if
+		end if
 		if code = 0 then
 			m.game.changeRoom("room_menu")
 		end if
 
-		if code = 6
-			tileItem = m.arrTiles[m.selTile_idx]
-			' tileItem.setMarked(NOT tileItem.isMarked())
-			if m.equalArr.Count() < 2
-				tileItem.setMarked(not tileItem.isMarked())
-
-				'TODO use "enable" prooerty to disable tile pairs
-				if tileItem.isMarked() and m.equalArr.Count() < 2
-					m.equalArr.Push(tileItem)
-					print m.equalArr.Count()
-				end if
-				if m.equalArr.Count() > 1
-					if m.equalArr[0].type = m.equalArr[1].type and m.equalArr[0].idx <> m.equalArr[1].idx
-						print "is a pair!"
-						m.equalArr[0].enabled = false
-						m.equalArr[0].x = -100
-						m.equalArr[1].enabled = false
-						m.equalArr[1].x = -100
-						m.selTile_idx = m.arrTiles.Count() - 1
-						m.arrTiles[m.selTile_idx].setSelected(true)
-						m.updateStats()
-						m.equalArr.Clear()
-					else
-						print "isn't a pair!"
-						m.equalArr[0].skin.alpha = 255
-						m.equalArr[1].skin.alpha = 255
-						m.equalArr.Clear()
-						m.updateStats()
-						print m.equalArr.Count()
-					end if
-				end if
-			end if
-			m.updateStats()
-		end if
+		
 
 	end function
 

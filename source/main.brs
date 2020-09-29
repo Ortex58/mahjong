@@ -5,6 +5,11 @@ sub Main()
 	'load bitmap
 	game.loadBitmap("menu_bg", "pkg:/sprites/bg_menu.jpg")
 	game.loadBitmap("game_bg", "pkg:/sprites/bg_game.jpg")
+
+	game.loadBitmap("panel_bg", "pkg:/sprites/panel_bg.png")
+	game.loadBitmap("but_yes", "pkg:/sprites/but_yes.png")
+	game.loadBitmap("but_no", "pkg:/sprites/but_no.png")
+
 	game.loadBitmap("tiles", "pkg:/sprites/tiles.png")
 	game.loadBitmap("selection", "pkg:/sprites/selection.png")
 	game.loadBitmap("but_audio", "pkg:/sprites/audio_icon.png")
@@ -31,6 +36,9 @@ sub Main()
 	'Chips
 	game.defineObject("chips", obj_chips)
 	game.defineObject("tile", tile)
+
+	'Popup
+	game.defineObject("popupShuffle", popupShuffle)
 
 	'Sellect room
 	game.changeRoom("room_menu")
