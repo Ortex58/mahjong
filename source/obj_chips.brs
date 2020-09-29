@@ -7,6 +7,8 @@ function obj_chips(object)
 	object.levelsFile = "pkg:/config/config-new-2.json"
 	object.selTile_idx = -1
 
+	object.const = GetConstants()
+
 	'********************************************************************
 	'	interface methods
 	'********************************************************************
@@ -25,7 +27,7 @@ function obj_chips(object)
 		c_y = levelData.layout_pos.y
 		arrType = []
 		for j = levelData.pos.Count() - 1 to 0 step -1
-			chipCode = j MOD 42
+			chipCode = j MOD m.const.TILES_COUNT
 			arrType.Push(chipCode)
 		end for
 		
@@ -40,8 +42,8 @@ function obj_chips(object)
 			pz = levelData.heights[k]
 
 			tileItem = m.game.createInstance("tile", { type: chipCode, depth: - pz, id: k })
-			tileItem.x = px
-			tileItem.y = py
+			tileItem.x = Cint(px)
+			tileItem.y = Cint(py)
 			tileItem.setBlocks(levelData.blocks[k])
 			tileItem.setNeighbours(levelData.blocks_list[k]) 'TODO add neighbours Data
 
