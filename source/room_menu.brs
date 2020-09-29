@@ -34,10 +34,9 @@ function room_menu(object)
       m.arrBoards[i].board_label = m.num[i].["label"]
       m.arrBoards[i].layout_pos = m.num[i].["layout_pos"]
     end for
-    'm.arrBoards[0].state = true
     m.arrBoards[0].alpha = m.no_opacity
 
-
+    'Audio
     btn_Audio = m.game.getBitmap("but_audio")
     audio_w = 80
     audio_h = 73
@@ -45,7 +44,7 @@ function room_menu(object)
     height = btn_Audio.GetHeight()
     region = CreateObject("roRegion", btn_Audio, 0, 0, audio_w, audio_h)
     region.SetPretranslation(- audio_w / 2, - audio_h / 2)
-    m.addImage("button_Audio", region, { offset_x: 1205, offset_y: 80 })
+    audio = m.addImage("button_Audio", region, { offset_x: 1205, offset_y: 80 })
   end function
 
   'Function create a boards level
@@ -146,6 +145,11 @@ function room_menu(object)
     if code = 0 then ' Back
       m.game.End()
     end if
+
+    if code = 10 then ' Volume
+    print "Hello"
+    end if
+
   end function
 
   object.onGameEvent = function(event as string, data as object)
