@@ -102,12 +102,16 @@ function obj_chips(object)
 					if m.equalArr.Count() > 1
 						if m.equalArr[0].idx <> m.equalArr[1].idx AND IsTileEqual(m.equalArr[0].type , m.equalArr[1].type)
 							print "is a pair!"
-							m.equalArr[0].enabled = false
-							m.equalArr[0].x = -100
-							m.equalArr[1].enabled = false
-							m.equalArr[1].x = -100
-							m.selTile_idx = m.arrTiles.Count() - 1
+							m.equalArr[0].setEnabled(false)
+							m.equalArr[1].setEnabled(false)
+
+							last = m.arrTiles.Count() - 1
+							while last >=0 and NOT m.arrTiles[last].enabled
+								last--
+							end while
+							m.selTile_idx = last
 							m.arrTiles[m.selTile_idx].setSelected(true)
+							
 							m.updateStats()
 							m.equalArr.Clear()
 						else
@@ -150,13 +154,11 @@ function obj_chips(object)
 			arrType.Push(tileItem.type)
 		end for
 		arrType = m.ShuffleArray(arrType)
-
+		m.resetField()
 		for i = 0 to m.arrTiles.Count() - 1
 			tileItem = m.arrTiles[i]
 			tileItem.setType(arrType[i])
 		end for
-
-		m.resetField()
 	end function
 
 	object.showHint = function() as boolean
@@ -167,8 +169,9 @@ function obj_chips(object)
 	object.resetField = function()
 		for i = 0 to m.arrTiles.Count() - 1
 			tileItem = m.arrTiles[i]
-			tileItem.enabled = true
+			tileItem.setEnabled(true)
 		end for
+		m.updateStats()
 	end function
 
 	'********************************************************************

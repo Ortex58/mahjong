@@ -30,7 +30,7 @@ function tile(object)
     end function
 
     object.onDrawEnd = function(canvas)
-        if m.const.DEBUG
+        if m.const.DEBUG AND m.enabled
             font = m.game.getFont("font3_12")
             DrawText(canvas, "id:"+str(m.idx), m.x-2, m.y-14, font, "center", &h00FF00FF)
             DrawText(canvas, "id:"+str(m.idx), m.x-3, m.y-15, font, "center", &h000000FF)
@@ -67,6 +67,13 @@ function tile(object)
 
     object.isMarked = function() as boolean
         return m.skin.alpha < 255
+    end function
+
+    object.setEnabled = function(isEnabled as boolean)
+        m.skin.enabled = isEnabled
+        m.enabled = isEnabled
+        m.skin.alpha = 255
+        if NOT isEnabled then m.setSelected(false)
     end function
 
     object.setBlocks = function(bData As Dynamic)
