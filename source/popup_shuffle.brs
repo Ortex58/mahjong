@@ -3,9 +3,7 @@ function popupShuffle(object)
   object.no_opacity = 255
   object.btn_yes_popup = invalid
   object.btn_yes_popup = invalid
-    
   object.onCreate = function(args)
-    ' m.game.statePopup = true
     m.depth = -10
     panel_bg = m.game.getBitmap("panel_bg")
     bt_yes = m.game.getBitmap("but_yes")

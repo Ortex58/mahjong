@@ -131,12 +131,10 @@ function room_lobby(object)
 			end if
 
 			if m.menuItems[m.selected_idx].active = true and m.selected_idx = 3 'Shuffle
-				' if m.game.statePopup = true
 					m.menuItems[m.selected_idx].active = false
 					m.menuItems[m.selected_idx].alpha = m.opacity
 					'Popup Shuffle
 					m.game.createInstance("popupShuffle")
-				' end if
 			end if
 		end if
 	end function
