@@ -1,8 +1,14 @@
 function room_lobby(object)
+	object.const = GetConstants()
 	object.menuItems = []
+	object.menuActive = false
+	object.blockInput = false
+
 	object.opacity = 150
 	object.no_opacity = 255
 	object.selected_idx = 0
+	object.gameManager = invalid
+
 	object.onCreate = function(args)
 		'set z-order
 		m.depth = 1
@@ -57,10 +63,9 @@ function room_lobby(object)
 
 		for i = 0 to m.menuItems.Count() - 1
 			m.menuItems[i].alpha = m.opacity
-			m.menuItems[i].active = false
 		end for
 
-		m.game.createInstance("chips", args)'pass level type with args
+		m.gameManager = m.game.createInstance("chips", args)'pass level type with args
 
 	end function
 
@@ -80,47 +85,42 @@ function room_lobby(object)
 	end function
 
 	object.onButton = function(code as integer)
-		if code = 10 and m.menuItems[m.selected_idx].active = false then ' Switch to right menu
+		if m.blockInput then return 0
+
+		if code = 10 and NOT m.menuActive then ' Switch to right menu
 			m.menuItems[m.selected_idx].alpha = m.no_opacity
-			m.menuItems[m.selected_idx].active = true
-		else if code = 10 and m.menuItems[m.selected_idx].active = true then
+			m.menuActive = true
+		else if code = 10 and m.menuActive then
 			m.menuItems[m.selected_idx].alpha = m.opacity
-			m.menuItems[m.selected_idx].active = false
+			m.menuActive = false
 		end if
 		if code = 3 ' Down on right menu
-			if m.selected_idx < m.menuItems.Count() and m.menuItems[m.selected_idx].active = true
+			if  m.menuActive
 				m.menuItems[m.selected_idx].alpha = m.opacity
-				m.menuItems[m.selected_idx].active = false
-				m.selected_idx++
-				if m.selected_idx = 4
-					m.menuItems[m.selected_idx - 1].alpha = m.opacity
-					m.menuItems[m.selected_idx - 1].active = false
-					m.menuItems[0].active = true
-					m.menuItems[0].alpha = m.no_opacity
-					m.selected_idx = 0
-				end if
+
+				m.selected_idx ++
+				m.selected_idx = m.selected_idx MOD m.menuItems.Count()
+				
 				m.menuItems[m.selected_idx].alpha = m.no_opacity
-				m.menuItems[m.selected_idx].active = true
 			end if
 		end if
 		if code = 2 'Up on right menu
-			if m.selected_idx = 0 and m.menuItems[m.selected_idx].active = true
+			if  m.menuActive
 				m.menuItems[m.selected_idx].alpha = m.opacity
-				m.menuItems[m.selected_idx].active = false
-				m.selected_idx = m.menuItems.Count() - 1
-				m.menuItems[m.selected_idx].alpha = m.no_opacity
-				m.menuItems[m.selected_idx].active = true
-			else if m.selected_idx > 0 and m.menuItems[m.selected_idx].active = true
-				m.menuItems[m.selected_idx].active = false
-				m.menuItems[m.selected_idx].alpha = m.opacity
-				m.selected_idx--
-				m.menuItems[m.selected_idx].active = true
+				
+				m.selected_idx --
+				if m.selected_idx < 0 
+					m.selected_idx = m.menuItems.Count() - 1
+				else
+					m.selected_idx = m.selected_idx MOD m.menuItems.Count()
+				end if
+
 				m.menuItems[m.selected_idx].alpha = m.no_opacity
 			end if
 		end if
 
 		if code = 6 ' Click on menu item
-			if m.menuItems[m.selected_idx].active = true and m.selected_idx = 0 ' Audio on/off
+			if m.menuActive and m.selected_idx = 0 ' Audio on/off
 				if m.audio.status = false
 					m.audio.status = true
 					m.audio.index = 1
@@ -130,17 +130,16 @@ function room_lobby(object)
 				end if
 			end if
 
-			if m.menuItems[m.selected_idx].active = true and m.selected_idx = 3 'Shuffle
-					m.menuItems[m.selected_idx].active = false
-					m.menuItems[m.selected_idx].alpha = m.opacity
+			if m.menuActive and m.selected_idx = 3 'Shuffle
 					'Popup Shuffle
+					m.blockInput = true
 					m.game.createInstance("popupShuffle")
 			end if
 		end if
 	end function
 
 	object.onGameEvent = function(event as string, data as object)
-
+		if event = m.const.EVT_CLOSE_POP then m.blockInput = false
 	end function
 
 end function

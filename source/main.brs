@@ -71,5 +71,10 @@ Function GetConstants() as object
 	c.SELECT_OFF_Y = -17
 	c.TILES_COUNT = 42
 
+	c.opacity = 150
+	c.no_opacity = 255
+
+	c.EVT_CLOSE_POP = "close_popup"
+
 	return c
 End Function

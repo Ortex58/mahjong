@@ -1,4 +1,5 @@
 function popupShuffle(object)
+  object.const = GetConstants()
   object.opacity = 150
   object.no_opacity = 255
   object.btn_yes_popup = invalid
@@ -19,7 +20,7 @@ function popupShuffle(object)
     m.btn_yes_popup = m.addImage("btn-yes", bt_yes_region, { offset_x: 762, offset_y: 380})
     m.btn_no_popup = m.addImage("btn-no", bt_no_region, { offset_x: 420, offset_y: 380})
 
-    m.btn_yes_popup.alpha = m.opacity
+    m.btn_yes_popup.alpha = m.const.opacity
     m.btn_yes_popup.status = false
     m.btn_no_popup.status = true
     
@@ -44,28 +45,30 @@ function popupShuffle(object)
     if code = 5 or code = 4' Right
       if m.btn_no_popup.status = true
         m.btn_no_popup.status = false
-        m.btn_no_popup.alpha = m.opacity
+        m.btn_no_popup.alpha = m.const.opacity
         m.btn_yes_popup.status = true
-        m.btn_yes_popup.alpha = m.no_opacity
+        m.btn_yes_popup.alpha = m.const.no_opacity
       else
         m.btn_yes_popup.status = false
         m.btn_yes_popup.alpha = m.opacity
         m.btn_no_popup.status = true
-        m.btn_no_popup.alpha = m.no_opacity
+        m.btn_no_popup.alpha = m.const.no_opacity
       end if
     end if
 
     if code = 6 ' Click on menu item
       if m.btn_no_popup.status = true'Cancel
-        m.game.destroyInstance(m)
+        m.closePopup()
       end if
 		end if
 
   end function
 
 
-  object.onGameEvent = function(event as string, data as object)
-
+  object.closePopup = function()
+    globalm = GetGlobalAA()
+    globalm.game.postGameEvent(m.const.EVT_CLOSE_POP,{})
+    m.game.destroyInstance(m)
   end function
 
 end function
