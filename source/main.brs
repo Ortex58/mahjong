@@ -75,6 +75,7 @@ Function GetConstants() as object
 	c.no_opacity = 255
 
 	c.EVT_CLOSE_POP = "close_popup"
+	c.EVT_SHUFFLE_OK = "shuffle_ok"
 
 	return c
 End Function

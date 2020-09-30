@@ -99,3 +99,15 @@ function tile(object)
     end function
     
 end function
+
+Function IsTileEqual(idLeft, idRight) as boolean
+    if idLeft = idRight then return true
+
+    '30-33 - flowers
+    if idLeft >=30 AND idLeft<=33 AND idRight >=30 AND idRight<=33 then return true
+
+    '34-37 - seasons
+    if idLeft >=34 AND idLeft<=37 AND idRight >=34 AND idRight<=37 then return true
+
+    return false
+end Function

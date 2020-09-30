@@ -25,10 +25,19 @@ function obj_chips(object)
 
 		levelData = m.levelConfig[levelID]
 		m.levelData = levelData
-		' Add arr of images to arrImage array
+
 		c_x = levelData.layout_pos.x
 		c_y = levelData.layout_pos.y
-		arrType = m.shuffle(levelData.pos.Count() - 1)
+
+		arrType = []
+		arrLength = levelData.pos.Count() \ 2
+		for j = 0 to arrLength
+			chipCode = j MOD m.const.TILES_COUNT
+			arrType.Push(chipCode)
+			arrType.Push(chipCode)
+		end for
+		arrType = m.ShuffleArray(arrType)
+
 		for k = levelData.pos.Count() - 1 to 0 step -1
 			' chipCode = k MOD 42 'REMOVE and use shuffle!
 			chipCode = arrType[k]
@@ -91,7 +100,7 @@ function obj_chips(object)
 						print m.equalArr.Count()
 					end if
 					if m.equalArr.Count() > 1
-						if m.equalArr[0].type = m.equalArr[1].type and m.equalArr[0].idx <> m.equalArr[1].idx
+						if m.equalArr[0].idx <> m.equalArr[1].idx AND IsTileEqual(m.equalArr[0].type , m.equalArr[1].type)
 							print "is a pair!"
 							m.equalArr[0].enabled = false
 							m.equalArr[0].x = -100
@@ -133,22 +142,33 @@ function obj_chips(object)
 	'********************************************************************
 	' public methods
 	'********************************************************************
-	object.shuffle = function(arrPos)
-		'utilize tile types and randomize it on field
+	object.shuffle = function()
 		arrType = []
-		arrlenght = arrPos
-		for j = arrlenght to 0 step -1
-			' m.levelData.pos.Count() - 1
-			chipCode = j MOD m.const.TILES_COUNT
-			arrType.Push(chipCode)
+		'collect all tiles types
+		for i = 0 to m.arrTiles.Count() - 1
+			tileItem = m.arrTiles[i]
+			arrType.Push(tileItem.type)
 		end for
 		arrType = m.ShuffleArray(arrType)
-		return arrType
+
+		for i = 0 to m.arrTiles.Count() - 1
+			tileItem = m.arrTiles[i]
+			tileItem.setType(arrType[i])
+		end for
+
+		m.resetField()
 	end function
 
 	object.showHint = function() as boolean
 		'calculate aveilable pairs on field and hightlight them
 		return false
+	end function
+
+	object.resetField = function()
+		for i = 0 to m.arrTiles.Count() - 1
+			tileItem = m.arrTiles[i]
+			tileItem.enabled = true
+		end for
 	end function
 
 	'********************************************************************
@@ -190,10 +210,19 @@ function obj_chips(object)
 	object.updateStats = function()
 		m.activeCount = 0
 		m.aveilableCount = 0
+		aveilables = []
 		for i = 0 to m.arrTiles.Count() - 1
 			tileItem = m.arrTiles[i]
 			if tileItem.enabled then m.activeCount++
-			if not m.isBlocked(i) and tileItem.enabled then m.aveilableCount++
+			if not m.isBlocked(i) and tileItem.enabled then aveilables.push(tileItem)
+		end for
+
+		for i = 0  to aveilables.Count() - 2
+			for j = i+1  to aveilables.Count() - 1
+				first = aveilables[i].type
+				second = aveilables[j].type
+				if IsTileEqual(first,second) then m.aveilableCount++
+			end for
 		end for
 	end function
 	'********************************************************************

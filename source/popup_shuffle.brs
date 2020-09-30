@@ -57,9 +57,11 @@ function popupShuffle(object)
     end if
 
     if code = 6 ' Click on menu item
-      if m.btn_no_popup.status = true'Cancel
-        m.closePopup()
+      if m.btn_yes_popup.status = true'Cancel
+        globalm = GetGlobalAA()
+        globalm.game.postGameEvent(m.const.EVT_SHUFFLE_OK,{})
       end if
+      m.closePopup() ' close for every button
 		end if
 
   end function

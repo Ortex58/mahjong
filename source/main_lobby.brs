@@ -140,6 +140,10 @@ function room_lobby(object)
 
 	object.onGameEvent = function(event as string, data as object)
 		if event = m.const.EVT_CLOSE_POP then m.blockInput = false
+
+		if event = m.const.EVT_SHUFFLE_OK then m.gameManager.shuffle()
+
+		'TODO resetField()
 	end function
 
 end function
