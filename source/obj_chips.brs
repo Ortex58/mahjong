@@ -28,7 +28,7 @@ function obj_chips(object)
 		' Add arr of images to arrImage array
 		c_x = levelData.layout_pos.x
 		c_y = levelData.layout_pos.y
-		arrType = m.shuffle()
+		arrType = m.shuffle(levelData.pos.Count() - 1)
 		for k = levelData.pos.Count() - 1 to 0 step -1
 			' chipCode = k MOD 42 'REMOVE and use shuffle!
 			chipCode = arrType[k]
@@ -133,10 +133,12 @@ function obj_chips(object)
 	'********************************************************************
 	' public methods
 	'********************************************************************
-	object.shuffle = function()
+	object.shuffle = function(arrPos)
 		'utilize tile types and randomize it on field
 		arrType = []
-		for j = m.levelData.pos.Count() - 1 to 0 step -1
+		arrlenght = arrPos
+		for j = arrlenght to 0 step -1
+			' m.levelData.pos.Count() - 1
 			chipCode = j MOD m.const.TILES_COUNT
 			arrType.Push(chipCode)
 		end for
