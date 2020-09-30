@@ -31,7 +31,7 @@ function obj_chips(object)
 
 		arrType = []
 		arrLength = levelData.pos.Count() \ 2
-		for j = 0 to arrLength
+		for j = 0 to arrLength - 1
 			chipCode = j MOD m.const.TILES_COUNT
 			arrType.Push(chipCode)
 			arrType.Push(chipCode)
