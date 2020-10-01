@@ -1,5 +1,4 @@
 function room_lobby(object)
-	object.time = 10000
 	object.const = GetConstants()
 	object.menuItems = []
 	object.menuActive = false
@@ -64,6 +63,8 @@ function room_lobby(object)
 
 		m.gameManager = m.game.createInstance("chips", args)'pass level type with args
 
+		m.game_timer = CreateObject_GameTimeSpan()
+		m.game_timer.Mark()
 	end function
 
 	object.onUpdate = function(dt)
@@ -73,23 +74,19 @@ function room_lobby(object)
 	object.onDrawBegin = function(canvas)
 
 	end function
-
 	object.onDrawEnd = function(canvas)
 		font2 = m.game.getFont("font2_25")
 		score = m.gameManager.score
 		DrawText(canvas, "SCORE " + str(score), 300, 50, font2, "center", &hFFFFFFFF)
-		if m.time > 0
-			DrawText(canvas, "TIME " + str(m.time), 500, 50, font2, "center", &hFFFFFFFF)
-			m.time -= 1
-		else if m.time = 0
-			DrawText(canvas, "TIME 0", 500, 50, font2, "center", &hFFFFFFFF)
-		end if
+
+		seconds = m.game_timer.TotalSeconds()
+		DrawText(canvas, "TIME " + str(seconds), 500, 50, font2, "center", &hFFFFFFFF)
 	end function
 
 	object.onButton = function(code as integer)
 		if m.blockInput then return 0
 
-		if code = 10 and NOT m.menuActive then ' Switch to right menu
+		if code = 10 and not m.menuActive then ' Switch to right menu
 			m.menuItems[m.selected_idx].alpha = m.const.no_opacity
 			m.menuActive = true
 		else if code = 10 and m.menuActive then
@@ -97,21 +94,21 @@ function room_lobby(object)
 			m.menuActive = false
 		end if
 		if code = 3 ' Down on right menu
-			if  m.menuActive
+			if m.menuActive
 				m.menuItems[m.selected_idx].alpha = m.const.opacity
 
-				m.selected_idx ++
+				m.selected_idx++
 				m.selected_idx = m.selected_idx MOD m.menuItems.Count()
-				
+
 				m.menuItems[m.selected_idx].alpha = m.const.no_opacity
 			end if
 		end if
 		if code = 2 'Up on right menu
-			if  m.menuActive
+			if m.menuActive
 				m.menuItems[m.selected_idx].alpha = m.const.opacity
-				
-				m.selected_idx --
-				if m.selected_idx < 0 
+
+				m.selected_idx--
+				if m.selected_idx < 0
 					m.selected_idx = m.menuItems.Count() - 1
 				else
 					m.selected_idx = m.selected_idx MOD m.menuItems.Count()
@@ -133,19 +130,19 @@ function room_lobby(object)
 			end if
 
 			if m.menuActive and m.selected_idx = 3 'Shuffle
-					'Popup Shuffle
-					m.blockInput = true
-					m.game.createInstance("popupShuffle")
+				'Popup Shuffle
+				m.blockInput = true
+				m.game.createInstance("popupShuffle")
 			end if
-			
+
 			if m.menuActive and m.selected_idx = 2 'Restart
-					'Popup Restart
-					m.blockInput = true
-					m.game.createInstance("popupRestart")
+				'Popup Restart
+				m.blockInput = true
+				m.game.createInstance("popupRestart")
 			end if
-			
+
 			if m.menuActive and m.selected_idx = 1 'Hint
-					arrHint = m.gameManager.showHint()
+				arrHint = m.gameManager.showHint()
 			end if
 		end if
 	end function
@@ -154,7 +151,7 @@ function room_lobby(object)
 		if event = m.const.EVT_CLOSE_POP then m.blockInput = false
 
 		if event = m.const.EVT_SHUFFLE_OK then m.gameManager.shuffle()
-		
+
 		if event = m.const.EVT_RESTART_OK then m.gameManager.resetField()
 
 		'TODO resetField()
