@@ -176,8 +176,8 @@ function obj_chips(object)
 				if IsTileEqual(first,second)
 					arrEqual.Push(aveilables[i])
 					arrEqual.Push(aveilables[j])
-					arrEqual[0].setMarked(not tileItem.isMarked())
-					arrEqual[1].setMarked(not tileItem.isMarked())
+					arrEqual[0].images[0].alpha = m.const.opacity
+					arrEqual[1].images[0].alpha = m.const.opacity
 				end if
 			end for
 		end for
