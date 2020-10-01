@@ -51,12 +51,12 @@ function room_menu(object)
     offset_x: 1205,
     offset_y: 80 })
     m.audio.status = false
-    ' queue = Sequence(m.audio)
-    ' queue.addAction(OffsetTo(m.audio, 470, 290, 70, "QuadraticTween"))
-		' queue.addAction(OffsetTo(m.audio, 470, 300, 70, "QuadraticTween"))
-		' queue.addAction(OffsetTo(m.audio, 460, 290, 70, "QuadraticTween"))
-		' queue.addAction(OffsetTo(m.audio, 1205, 80, 70, "QuadraticTween"))
-		' LoopAction(m.audio, queue).Run()
+    queue = Sequence(m.audio)
+    queue.addAction(OffsetTo(m.audio, 470, 290, 70, "QuadraticTween"))
+		queue.addAction(OffsetTo(m.audio, 470, 300, 70, "QuadraticTween"))
+		queue.addAction(OffsetTo(m.audio, 460, 290, 70, "QuadraticTween"))
+		queue.addAction(OffsetTo(m.audio, 1205, 80, 70, "QuadraticTween"))
+		LoopAction(m.audio, queue).Run()
   end function
 
   'Function create a boards level

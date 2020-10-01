@@ -42,6 +42,10 @@ sub Main()
 	game.defineObject("popupShuffle", popupShuffle)
 	game.defineObject("popupRestart", popupRestart)
 
+	'initialize tools and controllers
+	game.defineObject("libTweener", tweener)
+	game.tweener = game.createInstance("libTweener", {persistent:true})
+
 	'Sellect room
 	game.changeRoom("room_menu")
 
