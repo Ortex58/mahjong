@@ -1,6 +1,4 @@
 function obj_chips(object)
-	object.opacity = 150
-	object.no_opacity = 255
 	object.select_menu = false
 	object.equalArr = []
 	object.activeCount = 0
@@ -160,7 +158,7 @@ function obj_chips(object)
 			tileItem.setType(arrType[i])
 		end for
 	end function
-
+	' Hint
 	object.showHint = function()
 		aveilables = []
 		arrEqual = []
@@ -173,7 +171,7 @@ function obj_chips(object)
 			for j = i + 1 to aveilables.Count() - 1
 				first = aveilables[i].type
 				second = aveilables[j].type
-				if IsTileEqual(first,second)
+				if IsTileEqual(first, second)
 					arrEqual.Push(aveilables[i])
 					arrEqual.Push(aveilables[j])
 					arrEqual[0].images[0].alpha = m.const.opacity

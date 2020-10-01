@@ -15,7 +15,8 @@ function tile(object)
         
         m.region = CreateObject("roRegion", bm_tile, 0, 0, m.const.TILE_W, m.const.TILE_H)
         m.region.SetPretranslation(- m.const.TILE_W / 2, - m.const.TILE_H / 2)
-        m.skin = m.addImage("tile_tex",m.region)
+        m.skin = m.addAnimatedImage("tile_tex",[m.region], { index: 0
+        animation_speed: 1000})
 
         selRegion = CreateObject("roRegion", bm_selected, 0, 0, bm_selected.GetWidth(), bm_selected.GetHeight())
         selRegion.SetPretranslation(- bm_selected.GetWidth() / 2, - bm_selected.GetWidth() / 2)

@@ -36,6 +36,7 @@ sub Main()
 	'Chips
 	game.defineObject("chips", obj_chips)
 	game.defineObject("tile", tile)
+	game.defineObject("libTweener", tweener)
 
 	'Popup
 	game.defineObject("popupShuffle", popupShuffle)

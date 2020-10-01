@@ -1,10 +1,10 @@
 function room_start(object)
-
-
+  object.transdt = 20
+  object.trans = false
   object.onCreate = function(args)
     m.game_started = false
-    'set z-order
-    m.depth = 1
+    ' set z-order
+    m.depth = -1
     'Set background for lobby
     start_bg = m.game.getBitmap("menu_bg")
     width = start_bg.GetWidth()
@@ -14,13 +14,6 @@ function room_start(object)
     bg.offset_x = 0
     bg.offset_y = 0
 
-    btn_Play = m.game.getBitmap("but_play")
-    width = btn_Play.GetWidth()
-    height = btn_Play.GetHeight()
-    region = CreateObject("roRegion", btn_Play, 0, 0, width, height)
-    region.SetPretranslation(- width / 2, - height / 2)
-    m.addImage("button_Play", region, { offset_x: 1280 / 2, offset_y: 550 })
-    
   end function
 
   object.onUpdate = function(dt)
@@ -33,6 +26,22 @@ function room_start(object)
   'Draw OK image
   object.onDrawEnd = function(canvas)
     
+    if m.trans = true
+      font2 = m.game.getFont("font2_25")
+			DrawText(canvas, "Press OK to Start", canvas.GetWidth()/2, canvas.GetHeight()/2+300, font2, "center", &hFFFFFFFF)
+			m.transdt -= 1
+			if m.transdt = 0
+				m.transdt = 30
+				m.trans = false
+			end if
+		else if m.trans = false
+			m.transdt -= 1
+			if m.transdt = 0
+				m.transdt = 30
+				m.trans = true
+			end if
+		end if
+	
   end function
 
   object.onButton = function(code as integer)
