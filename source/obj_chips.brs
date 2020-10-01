@@ -174,8 +174,33 @@ function obj_chips(object)
 				if IsTileEqual(first, second)
 					arrEqual.Push(aveilables[i])
 					arrEqual.Push(aveilables[j])
-					arrEqual[0].images[0].alpha = m.const.opacity
-					arrEqual[1].images[0].alpha = m.const.opacity
+					firsItem = arrEqual[0].images[0]
+					secondItem = arrEqual[1].images[0]
+					mplayanim = Sequence(firsItem)
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x + 5 , firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x - 5, firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x, firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x + 5 , firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x - 5, firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x, firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x + 5 , firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x - 5, firsItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x, firsItem.offset_y, 1000, "QuadraticTween"))
+					' anim queue
+					mplayanim.Run()
+					mplayanim = Sequence(secondItem)
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x + 5 , secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x - 5, secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x, secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x + 5 , secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x - 5, secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x, secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x + 5 , secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x - 5, secondItem.offset_y, 1000, "QuadraticTween"))
+					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x, secondItem.offset_y, 1000, "QuadraticTween"))
+					' anim queue
+					mplayanim.Run()
+
 				end if
 			end for
 		end for

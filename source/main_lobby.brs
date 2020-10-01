@@ -1,20 +1,17 @@
 function room_lobby(object)
+	object.time = 10000
 	object.const = GetConstants()
 	object.menuItems = []
 	object.menuActive = false
 	object.blockInput = false
-
-	object.opacity = 150
-	object.no_opacity = 255
 	object.selected_idx = 0
 	object.gameManager = invalid
+	object.const = GetConstants()
 
 	object.onCreate = function(args)
 		'set z-order
 		m.depth = 1
-
 		'Set background for lobby
-
 		bm_bg = m.game.getBitmap("game_bg")
 		width = bm_bg.GetWidth()
 		height = bm_bg.GetHeight()
@@ -62,7 +59,7 @@ function room_lobby(object)
 		m.menuItems.Push(shuffle)
 
 		for i = 0 to m.menuItems.Count() - 1
-			m.menuItems[i].alpha = m.opacity
+			m.menuItems[i].alpha = m.const.opacity
 		end for
 
 		m.gameManager = m.game.createInstance("chips", args)'pass level type with args
@@ -81,32 +78,37 @@ function room_lobby(object)
 		font2 = m.game.getFont("font2_25")
 		score = m.gameManager.score
 		DrawText(canvas, "SCORE " + str(score), 300, 50, font2, "center", &hFFFFFFFF)
-		DrawText(canvas, "TIME 500", 500, 50, font2, "center", &hFFFFFFFF)
+		if m.time > 0
+			DrawText(canvas, "TIME " + str(m.time), 500, 50, font2, "center", &hFFFFFFFF)
+			m.time -= 1
+		else if m.time = 0
+			DrawText(canvas, "TIME 0", 500, 50, font2, "center", &hFFFFFFFF)
+		end if
 	end function
 
 	object.onButton = function(code as integer)
 		if m.blockInput then return 0
 
 		if code = 10 and NOT m.menuActive then ' Switch to right menu
-			m.menuItems[m.selected_idx].alpha = m.no_opacity
+			m.menuItems[m.selected_idx].alpha = m.const.no_opacity
 			m.menuActive = true
 		else if code = 10 and m.menuActive then
-			m.menuItems[m.selected_idx].alpha = m.opacity
+			m.menuItems[m.selected_idx].alpha = m.const.opacity
 			m.menuActive = false
 		end if
 		if code = 3 ' Down on right menu
 			if  m.menuActive
-				m.menuItems[m.selected_idx].alpha = m.opacity
+				m.menuItems[m.selected_idx].alpha = m.const.opacity
 
 				m.selected_idx ++
 				m.selected_idx = m.selected_idx MOD m.menuItems.Count()
 				
-				m.menuItems[m.selected_idx].alpha = m.no_opacity
+				m.menuItems[m.selected_idx].alpha = m.const.no_opacity
 			end if
 		end if
 		if code = 2 'Up on right menu
 			if  m.menuActive
-				m.menuItems[m.selected_idx].alpha = m.opacity
+				m.menuItems[m.selected_idx].alpha = m.const.opacity
 				
 				m.selected_idx --
 				if m.selected_idx < 0 
@@ -115,7 +117,7 @@ function room_lobby(object)
 					m.selected_idx = m.selected_idx MOD m.menuItems.Count()
 				end if
 
-				m.menuItems[m.selected_idx].alpha = m.no_opacity
+				m.menuItems[m.selected_idx].alpha = m.const.no_opacity
 			end if
 		end if
 
