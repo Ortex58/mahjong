@@ -93,25 +93,25 @@ function obj_chips(object)
 				' tileItem.setMarked(NOT tileItem.isMarked())
 				if m.equalArr.Count() < 2
 					tileItem.setMarked(not tileItem.isMarked())
-	
+
 					'TODO use "enable" prooerty to disable tile pairs
 					if tileItem.isMarked() and m.equalArr.Count() < 2
 						m.equalArr.Push(tileItem)
 						print m.equalArr.Count()
 					end if
 					if m.equalArr.Count() > 1
-						if m.equalArr[0].idx <> m.equalArr[1].idx AND IsTileEqual(m.equalArr[0].type , m.equalArr[1].type)
+						if m.equalArr[0].idx <> m.equalArr[1].idx and IsTileEqual(m.equalArr[0].type, m.equalArr[1].type)
 							print "is a pair!"
 							m.equalArr[0].setEnabled(false)
 							m.equalArr[1].setEnabled(false)
 
 							last = m.arrTiles.Count() - 1
-							while last >=0 and NOT m.arrTiles[last].enabled
+							while last >= 0 and not m.arrTiles[last].enabled
 								last--
 							end while
 							m.selTile_idx = last
 							m.arrTiles[m.selTile_idx].setSelected(true)
-							
+
 							m.updateStats()
 							m.equalArr.Clear()
 						else
@@ -131,7 +131,7 @@ function obj_chips(object)
 			m.game.changeRoom("room_menu")
 		end if
 
-		
+
 
 	end function
 
@@ -162,13 +162,25 @@ function obj_chips(object)
 	end function
 
 	object.showHint = function()
-		'calculate aveilable pairs on field and hightlight them
-		hintArrTiles = []
+		aveilables = []
+		arrEqual = []
 		for i = 0 to m.arrTiles.Count() - 1
-			hintArrTiles.Push(m.arrTiles[i].type)
+			tileItem = m.arrTiles[i]
+			if not m.isBlocked(i) and tileItem.enabled then aveilables.push(tileItem)
 		end for
-		hintArrTiles.Sort()
-		return hintArrTiles
+
+		for i = 0 to aveilables.Count() - 2
+			for j = i + 1 to aveilables.Count() - 1
+				first = aveilables[i].type
+				second = aveilables[j].type
+				if IsTileEqual(first,second)
+					arrEqual.Push(aveilables[i])
+					arrEqual.Push(aveilables[j])
+					arrEqual[0].setMarked(not tileItem.isMarked())
+					arrEqual[1].setMarked(not tileItem.isMarked())
+				end if
+			end for
+		end for
 	end function
 
 	object.resetField = function()
@@ -225,11 +237,11 @@ function obj_chips(object)
 			if not m.isBlocked(i) and tileItem.enabled then aveilables.push(tileItem)
 		end for
 
-		for i = 0  to aveilables.Count() - 2
-			for j = i+1  to aveilables.Count() - 1
+		for i = 0 to aveilables.Count() - 2
+			for j = i + 1 to aveilables.Count() - 1
 				first = aveilables[i].type
 				second = aveilables[j].type
-				if IsTileEqual(first,second) then m.aveilableCount++
+				if IsTileEqual(first, second) then m.aveilableCount++
 			end for
 		end for
 	end function
