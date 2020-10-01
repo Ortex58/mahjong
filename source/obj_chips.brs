@@ -3,7 +3,7 @@ function obj_chips(object)
 	object.equalArr = []
 	object.activeCount = 0
 	object.aveilableCount = 0
-
+	object.score = 0
 	object.arrTiles = []
 	object.levelsFile = "pkg:/config/config-new-2.json"
 	object.selTile_idx = -1
@@ -102,7 +102,7 @@ function obj_chips(object)
 							print "is a pair!"
 							m.equalArr[0].setEnabled(false)
 							m.equalArr[1].setEnabled(false)
-
+							m.score += 500
 							last = m.arrTiles.Count() - 1
 							while last >= 0 and not m.arrTiles[last].enabled
 								last--

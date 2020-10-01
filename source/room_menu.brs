@@ -47,16 +47,16 @@ function room_menu(object)
     region1.SetPretranslation(- audio_w / 2, - audio_h / 2)
     region2.SetPretranslation(- audio_w / 2, - audio_h / 2)
     m.audio = m.addAnimatedImage("button_Audio", [region1, region2], { index: 0
-    animation_speed: 1000
+    ' animation_speed: 1000
     offset_x: 1205,
     offset_y: 80 })
     m.audio.status = false
-    queue = Sequence(m.audio)
-    queue.addAction(OffsetTo(m.audio, 470, 290, 70, "QuadraticTween"))
-		queue.addAction(OffsetTo(m.audio, 470, 300, 70, "QuadraticTween"))
-		queue.addAction(OffsetTo(m.audio, 460, 290, 70, "QuadraticTween"))
-		queue.addAction(OffsetTo(m.audio, 460, 300, 70, "QuadraticTween"))
-		LoopAction(m.audio, queue).Run()
+    ' queue = Sequence(m.audio)
+    ' queue.addAction(OffsetTo(m.audio, 470, 290, 70, "QuadraticTween"))
+		' queue.addAction(OffsetTo(m.audio, 470, 300, 70, "QuadraticTween"))
+		' queue.addAction(OffsetTo(m.audio, 460, 290, 70, "QuadraticTween"))
+		' queue.addAction(OffsetTo(m.audio, 1205, 80, 70, "QuadraticTween"))
+		' LoopAction(m.audio, queue).Run()
   end function
 
   'Function create a boards level

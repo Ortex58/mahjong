@@ -79,8 +79,8 @@ function room_lobby(object)
 
 	object.onDrawEnd = function(canvas)
 		font2 = m.game.getFont("font2_25")
-
-		DrawText(canvas, "SCORE 0", 300, 50, font2, "center", &hFFFFFFFF)
+		score = m.gameManager.score
+		DrawText(canvas, "SCORE " + str(score), 300, 50, font2, "center", &hFFFFFFFF)
 		DrawText(canvas, "TIME 500", 500, 50, font2, "center", &hFFFFFFFF)
 	end function
 
