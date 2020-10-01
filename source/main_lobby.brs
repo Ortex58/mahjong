@@ -135,6 +135,16 @@ function room_lobby(object)
 					m.blockInput = true
 					m.game.createInstance("popupShuffle")
 			end if
+			
+			if m.menuActive and m.selected_idx = 2 'Restart
+					'Popup Restart
+					m.blockInput = true
+					m.game.createInstance("popupRestart")
+			end if
+			
+			if m.menuActive and m.selected_idx = 1 'Hint
+					arrHint = m.gameManager.showHint()
+			end if
 		end if
 	end function
 
@@ -142,6 +152,8 @@ function room_lobby(object)
 		if event = m.const.EVT_CLOSE_POP then m.blockInput = false
 
 		if event = m.const.EVT_SHUFFLE_OK then m.gameManager.shuffle()
+		
+		if event = m.const.EVT_RESTART_OK then m.gameManager.resetField()
 
 		'TODO resetField()
 	end function

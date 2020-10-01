@@ -1,4 +1,4 @@
-function popupShuffle(object)
+function popupRestart(object)
   object.const = GetConstants()
   object.opacity = 150
   object.no_opacity = 255
@@ -10,12 +10,12 @@ function popupShuffle(object)
     bt_yes = m.game.getBitmap("but_yes")
     but_no = m.game.getBitmap("but_no")
 
-    shuffle_region = CreateObject("roRegion", panel_bg, 0, 0, panel_bg.GetWidth(), panel_bg.GetHeight())
-    shuffle_region.SetPretranslation(- panel_bg.GetWidth() / 2, - panel_bg.GetHeight() / 2)
+    restart_region = CreateObject("roRegion", panel_bg, 0, 0, panel_bg.GetWidth(), panel_bg.GetHeight())
+    restart_region.SetPretranslation(- panel_bg.GetWidth() / 2, - panel_bg.GetHeight() / 2)
     bt_yes_region = CreateObject("roRegion", bt_yes, 0, 0, bt_yes.GetWidth(), bt_yes.GetHeight())
     bt_no_region = CreateObject("roRegion", but_no, 0, 0, but_no.GetWidth(), but_no.GetHeight())
 
-    shuffle_popup = m.addImage("panel-bg", shuffle_region, {offset_x: 1280 / 2, offset_y: 720 / 2 })
+    restart_popup = m.addImage("panel-bg", restart_region, {offset_x: 1280 / 2, offset_y: 720 / 2 })
 
     m.btn_yes_popup = m.addImage("btn-yes", bt_yes_region, { offset_x: 762, offset_y: 380})
     m.btn_no_popup = m.addImage("btn-no", bt_no_region, { offset_x: 420, offset_y: 380})
@@ -37,7 +37,7 @@ function popupShuffle(object)
   object.onDrawEnd = function(canvas)
     font1 = m.game.getFont("font1_60")
     text1 = DrawText(canvas, "DO YOU REALLY", canvas.GetWidth() / 2, canvas.GetHeight() - 480, font1, "center", &hFFFFFFFF)
-    DrawText(canvas, "WANT TO SHUFFLE", canvas.GetWidth() / 2, canvas.GetHeight() - 420, font1, "center", &hFFFFFFFF)
+    DrawText(canvas, "WANT TO RESTART", canvas.GetWidth() / 2, canvas.GetHeight() - 420, font1, "center", &hFFFFFFFF)
   end function
 
   object.onButton = function(code as integer)
@@ -59,7 +59,7 @@ function popupShuffle(object)
     if code = 6 ' Click on menu item
       if m.btn_yes_popup.status = true'Cancel
         globalm = GetGlobalAA()
-        globalm.game.postGameEvent(m.const.EVT_SHUFFLE_OK,{})
+        globalm.game.postGameEvent(m.const.EVT_RESTART_OK,{})
       end if
       m.closePopup() ' close for every button
 		end if

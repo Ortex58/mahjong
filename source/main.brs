@@ -39,6 +39,7 @@ sub Main()
 
 	'Popup
 	game.defineObject("popupShuffle", popupShuffle)
+	game.defineObject("popupRestart", popupRestart)
 
 	'Sellect room
 	game.changeRoom("room_menu")
@@ -76,6 +77,7 @@ Function GetConstants() as object
 
 	c.EVT_CLOSE_POP = "close_popup"
 	c.EVT_SHUFFLE_OK = "shuffle_ok"
+	c.EVT_RESTART_OK = "restart_ok"
 
 	return c
 End Function

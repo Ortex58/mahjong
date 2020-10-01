@@ -161,9 +161,14 @@ function obj_chips(object)
 		end for
 	end function
 
-	object.showHint = function() as boolean
+	object.showHint = function()
 		'calculate aveilable pairs on field and hightlight them
-		return false
+		hintArrTiles = []
+		for i = 0 to m.arrTiles.Count() - 1
+			hintArrTiles.Push(m.arrTiles[i].type)
+		end for
+		hintArrTiles.Sort()
+		return hintArrTiles
 	end function
 
 	object.resetField = function()
