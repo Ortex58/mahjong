@@ -51,8 +51,8 @@ function room_start(object)
     end if
 
     if code = 6 OR code = 13 then ' Select
-      m.game.changeRoom("room_menu")
-      m.game_started = true
+    m.game_started = true
+    m.game.changeRoom("room_menu")
     end if
   end function
 

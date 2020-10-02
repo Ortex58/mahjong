@@ -5,11 +5,11 @@ sub Main()
 	'load bitmap
 	game.loadBitmap("menu_bg", "pkg:/sprites/bg_menu.jpg")
 	game.loadBitmap("game_bg", "pkg:/sprites/bg_game.jpg")
-
+	'load bitmap popup img
 	game.loadBitmap("panel_bg", "pkg:/sprites/panel_bg.png")
 	game.loadBitmap("but_yes", "pkg:/sprites/but_yes.png")
 	game.loadBitmap("but_no", "pkg:/sprites/but_no.png")
-
+	'load bitmap images
 	game.loadBitmap("tiles", "pkg:/sprites/tiles.png")
 	game.loadBitmap("selection", "pkg:/sprites/selection.png")
 	game.loadBitmap("but_audio", "pkg:/sprites/audio_icon.png")
@@ -28,6 +28,10 @@ sub Main()
 	game.loadFont("font1_60", "TradeGothic LT CondEighteen", 60, false, false)
 	game.loadFont("font2_25", "TradeGothic LT CondEighteen", 25, false, false)
 	game.loadFont("font3_12", "TradeGothic LT CondEighteen", 12, false, false)
+
+	'load sound
+	game.loadSound("click", "pkg:/sounds/click.wav")
+	game.loadSound("tab", "pkg:/sounds/tab.wav")
 
 	'Load room
 	game.defineRoom("room_lobby", room_lobby)

@@ -46,10 +46,10 @@ function room_menu(object)
     region2 = CreateObject("roRegion", btn_Audio, 86, 0, audio_w, audio_h)
     region1.SetPretranslation(- audio_w / 2, - audio_h / 2)
     region2.SetPretranslation(- audio_w / 2, - audio_h / 2)
-    m.audio = m.addAnimatedImage("button_Audio", [region1, region2], { index: 0
-    offset_x: 1205,
+    m.game.audio = m.addAnimatedImage("button_Audio", [region1, region2], { index: 1
+      offset_x: 1205,
     offset_y: 80 })
-    m.audio.status = false  
+    m.game.audio.status = false
   end function
 
   'Function create a boards level
@@ -63,10 +63,6 @@ function room_menu(object)
     img.board_label = ""
     img.layout_pos = ""
     m.arrBoards.Push(img)
-  end function
-
-  object.onUpdate = function(dt)
-
   end function
 
   object.onDrawBegin = function(canvas)
@@ -95,10 +91,11 @@ function room_menu(object)
   object.onButton = function(code as integer)
     'Select
     if code = 6 then
-      m.game.changeRoom("room_lobby",{level:m.selected_idx})
+      m.game.changeRoom("room_lobby", { level: m.selected_idx })
     end if
-    
+
     if code = 5 ' Right
+      m.onSoundMenu("tab", 50)
       if m.selected_idx < m.arrBoards.Count()
         m.arrBoards[m.selected_idx].alpha = m.opacity
         m.selected_idx++
@@ -111,6 +108,7 @@ function room_menu(object)
     end if
 
     if code = 4 ' Left
+      m.onSoundMenu("tab", 50)
       if m.selected_idx = 0
         m.selected_idx = m.arrBoards.Count() - 1
         m.arrBoards[0].alpha = m.opacity
@@ -124,6 +122,7 @@ function room_menu(object)
     end if
 
     if code = 3 ' Down
+      m.onSoundMenu("tab", 50)
       if m.selected_idx >= 0 and m.selected_idx <= m.rows
         m.arrBoards[m.selected_idx].alpha = m.opacity
         m.selected_idx = m.selected_idx + m.cols
@@ -136,6 +135,7 @@ function room_menu(object)
     end if
 
     if code = 2 ' Up
+      m.onSoundMenu("tab", 50)
       if m.selected_idx >= m.cols and m.selected_idx <= m.arrBoards.Count() - 1
         m.arrBoards[m.selected_idx].alpha = m.opacity
         m.selected_idx = m.selected_idx - m.cols
@@ -148,19 +148,27 @@ function room_menu(object)
     end if
     'Back
     if code = 0 then ' Back
+      m.onSoundMenu("click", 50)
       m.game.End()
     end if
 
     if code = 10 then ' Volume
-      if m.audio.status = false
-        m.audio.status = true
-        m.audio.index = 1
+      if m.game.audio.status = false
+        m.game.playSound("click", 50)
+        m.game.audio.status = true
+        m.game.audio.index = 0
       else
-        m.audio.status = false
-        m.audio.index = 0
+        m.game.audio.status = false
+        m.game.audio.index = 1
       end if
     end if
 
+  end function
+
+  object.onSoundMenu = function(sound as string, volume as integer)
+    if m.game.audio.status = true
+      m.game.playSound(sound, volume)
+    end if
   end function
 
   object.onGameEvent = function(event as string, data as object)

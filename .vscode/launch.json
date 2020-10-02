@@ -18,6 +18,7 @@
         "manifest",
         "source/**/*.*",
         "images/**/*.*",
+        "sounds/**/*.*",
         "sprites/**/*.*",
         "config/**/*.*",
         "fonts/**/*.*"

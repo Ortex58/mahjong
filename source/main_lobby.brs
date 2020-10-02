@@ -29,8 +29,8 @@ function room_lobby(object)
 		region2 = CreateObject("roRegion", btn_Audio, 86, 0, audio_w, audio_h)
 		region1.SetPretranslation(- audio_w / 2, - audio_h / 2)
 		region2.SetPretranslation(- audio_w / 2, - audio_h / 2)
-		m.audio = m.addAnimatedImage("button_Audio", [region1, region2], { offset_x: 1205, offset_y: 80, index: 0 })
-		m.audio.status = false
+		m.audio = m.addAnimatedImage("button_Audio", [region1, region2], { offset_x: 1205, offset_y: 80, index: m.game.audio.index })
+		m.audio.status = m.game.audio.status
 		m.menuItems.Push(m.audio)
 
 		btn_Hint = m.game.getBitmap("but_hint")
@@ -62,7 +62,6 @@ function room_lobby(object)
 		end for
 
 		m.gameManager = m.game.createInstance("chips", args)'pass level type with args
-
 		m.game_timer = CreateObject_GameTimeSpan()
 		m.game_timer.Mark()
 	end function
@@ -108,6 +107,7 @@ function room_lobby(object)
 			m.menuActive = false
 		end if
 		if code = 3 ' Down on right menu
+			m.onSoundLobyMenu("tab", 50)
 			if m.menuActive
 				m.menuItems[m.selected_idx].alpha = m.const.opacity
 
@@ -118,6 +118,7 @@ function room_lobby(object)
 			end if
 		end if
 		if code = 2 'Up on right menu
+			m.onSoundLobyMenu("tab", 50)
 			if m.menuActive
 				m.menuItems[m.selected_idx].alpha = m.const.opacity
 
@@ -133,30 +134,44 @@ function room_lobby(object)
 		end if
 
 		if code = 6 ' Click on menu item
-			if m.menuActive and m.selected_idx = 0 ' Audio on/off
-				if m.audio.status = false
-					m.audio.status = true
-					m.audio.index = 1
-				else
-					m.audio.status = false
-					m.audio.index = 0
-				end if
-			end if
+			' if m.menuActive and m.selected_idx = 0 ' Audio on/off
+			' 	if m.audio.status = true
+			' 		m.audio.status = false
+			' 		m.audio.index = 0
+			' 	else
+			' 		m.audio.status = true
+			' 		m.audio.index = 1
+			' 	end if
+			' end if
 
 			if m.menuActive and m.selected_idx = 3 'Shuffle
 				'Popup Shuffle
 				m.blockInput = true
 				m.game.createInstance("popupShuffle")
+				m.onSoundLobyMenu("click", 50)
 			end if
 
 			if m.menuActive and m.selected_idx = 2 'Restart
 				'Popup Restart
 				m.blockInput = true
 				m.game.createInstance("popupRestart")
+				m.onSoundLobyMenu("click", 50)
 			end if
 
 			if m.menuActive and m.selected_idx = 1 'Hint
 				arrHint = m.gameManager.showHint()
+				m.onSoundLobyMenu("click", 50)
+			end if
+
+			if m.menuActive and m.selected_idx = 0 'Sound
+				if m.audio.status = false
+					m.game.playSound("click", 50)
+					m.audio.status = true
+					m.audio.index = 0
+				else
+					m.audio.status = false
+					m.audio.index = 1
+				end if
 			end if
 		end if
 	end function
@@ -170,5 +185,11 @@ function room_lobby(object)
 
 		'TODO resetField()
 	end function
+
+	object.onSoundLobyMenu = function(sound as string, volume as integer)
+    if m.audio.status = true
+      m.game.playSound(sound, volume)
+    end if
+  end function
 
 end function

@@ -345,4 +345,11 @@ function obj_chips(object)
 		return rndArray
 	end function
 
+	object.onSoundTitles = function(sound as string, volume as integer)
+    if m.audio.status = true
+      m.game.playSound(sound, volume)
+    end if
+  end function
+
+
 end function
