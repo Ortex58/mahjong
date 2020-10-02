@@ -25,17 +25,17 @@ function tile(object)
         if args.type <> invalid then m.setType(args.type)
         if args.depth <> invalid then m.depth = args.depth
 
-        m.idx = args.id
+        ' m.idx = args.id
 
         m.setSelected(false)
     end function
 
     object.onDrawEnd = function(canvas)
-        if m.const.DEBUG AND m.enabled
-            font = m.game.getFont("font3_12")
-            DrawText(canvas, "id:"+str(m.idx), m.x-2, m.y-14, font, "center", &h00FF00FF)
-            DrawText(canvas, "id:"+str(m.idx), m.x-3, m.y-15, font, "center", &h000000FF)
-        end if
+        ' if m.const.DEBUG AND m.enabled
+        '     font = m.game.getFont("font3_12")
+        '     DrawText(canvas, "id:"+str(m.idx), m.x-2, m.y-14, font, "center", &h00FF00FF)
+        '     DrawText(canvas, "id:"+str(m.idx), m.x-3, m.y-15, font, "center", &h000000FF)
+        ' end if
         
     
     end function

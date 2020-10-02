@@ -78,9 +78,23 @@ function room_lobby(object)
 		font2 = m.game.getFont("font2_25")
 		score = m.gameManager.score
 		DrawText(canvas, "SCORE " + str(score), 300, 50, font2, "center", &hFFFFFFFF)
-
 		seconds = m.game_timer.TotalSeconds()
-		DrawText(canvas, "TIME " + str(seconds), 500, 50, font2, "center", &hFFFFFFFF)
+		minutes = seconds \ 60
+		hour = minutes \ 3600
+		minutes = minutes - (hour * 60)
+		seconds = seconds - (minutes * 60)
+		if seconds < 10
+			seconds = "0" + str(seconds).trim()
+			else
+				seconds = str(seconds).trim()
+		end if
+		if minutes < 10
+			minutes = "0" + str(minutes).trim()
+			else
+				minutes = str(minutes).trim()
+		end if
+	DrawText(canvas, "TIME " + "0" + str(hour).trim() + ":" + minutes + ":" + seconds, 500, 50, font2, "center", &hFFFFFFFF)
+
 	end function
 
 	object.onButton = function(code as integer)
