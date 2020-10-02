@@ -25,7 +25,7 @@ function tile(object)
         if args.type <> invalid then m.setType(args.type)
         if args.depth <> invalid then m.depth = args.depth
 
-        ' m.idx = args.id
+        m.idx = args.id
 
         m.setSelected(false)
     end function
