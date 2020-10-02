@@ -29,7 +29,11 @@ function room_lobby(object)
 		region2 = CreateObject("roRegion", btn_Audio, 86, 0, audio_w, audio_h)
 		region1.SetPretranslation(- audio_w / 2, - audio_h / 2)
 		region2.SetPretranslation(- audio_w / 2, - audio_h / 2)
-		m.audio = m.addAnimatedImage("button_Audio", [region1, region2], { offset_x: 1205, offset_y: 80, index: m.game.audio.index })
+		if m.game.audio.status = true
+			audio_index = 0
+		else audio_index = 1
+		end if
+		m.audio = m.addAnimatedImage("button_Audio", [region1, region2], { offset_x: 1205, offset_y: 80, index: audio_index })
 		m.audio.status = m.game.audio.status
 		m.menuItems.Push(m.audio)
 
@@ -84,15 +88,15 @@ function room_lobby(object)
 		seconds = seconds - (minutes * 60)
 		if seconds < 10
 			seconds = "0" + str(seconds).trim()
-			else
-				seconds = str(seconds).trim()
+		else
+			seconds = str(seconds).trim()
 		end if
 		if minutes < 10
 			minutes = "0" + str(minutes).trim()
-			else
-				minutes = str(minutes).trim()
+		else
+			minutes = str(minutes).trim()
 		end if
-	DrawText(canvas, "TIME " + "0" + str(hour).trim() + ":" + minutes + ":" + seconds, 500, 50, font2, "center", &hFFFFFFFF)
+		DrawText(canvas, "TIME " + "0" + str(hour).trim() + ":" + minutes + ":" + seconds, 500, 50, font2, "center", &hFFFFFFFF)
 
 	end function
 
@@ -134,15 +138,6 @@ function room_lobby(object)
 		end if
 
 		if code = 6 ' Click on menu item
-			' if m.menuActive and m.selected_idx = 0 ' Audio on/off
-			' 	if m.audio.status = true
-			' 		m.audio.status = false
-			' 		m.audio.index = 0
-			' 	else
-			' 		m.audio.status = true
-			' 		m.audio.index = 1
-			' 	end if
-			' end if
 
 			if m.menuActive and m.selected_idx = 3 'Shuffle
 				'Popup Shuffle
@@ -166,13 +161,17 @@ function room_lobby(object)
 			if m.menuActive and m.selected_idx = 0 'Sound
 				if m.audio.status = false
 					m.game.playSound("click", 50)
-					m.audio.status = true
+					m.game.audio.status = true
 					m.audio.index = 0
 				else
-					m.audio.status = false
+					m.game.audio.status = false
 					m.audio.index = 1
 				end if
 			end if
+		end if
+		if code = 0 then
+			m.game.audio.status = false
+			m.game.changeRoom("room_menu")
 		end if
 	end function
 
@@ -187,9 +186,9 @@ function room_lobby(object)
 	end function
 
 	object.onSoundLobyMenu = function(sound as string, volume as integer)
-    if m.audio.status = true
-      m.game.playSound(sound, volume)
-    end if
-  end function
+		if m.audio.status = true
+			m.game.playSound(sound, volume)
+		end if
+	end function
 
 end function

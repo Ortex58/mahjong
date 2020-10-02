@@ -32,6 +32,8 @@ sub Main()
 	'load sound
 	game.loadSound("click", "pkg:/sounds/click.wav")
 	game.loadSound("tab", "pkg:/sounds/tab.wav")
+	game.loadSound("win", "pkg:/sounds/pair.wav")
+	game.loadSound("game_win", "pkg:/sounds/game_win.wav")
 
 	'Load room
 	game.defineRoom("room_lobby", room_lobby)
@@ -45,13 +47,14 @@ sub Main()
 	'Popup
 	game.defineObject("popupShuffle", popupShuffle)
 	game.defineObject("popupRestart", popupRestart)
+	game.defineObject("popupWin", popupWin)
 
 	'initialize tools and controllers
 	game.defineObject("libTweener", tweener)
 	game.tweener = game.createInstance("libTweener", {persistent:true})
 
 	'Sellect room
-	game.changeRoom("room_menu")
+	game.changeRoom("room_start")
 
 	'Start game
 	game.Play()

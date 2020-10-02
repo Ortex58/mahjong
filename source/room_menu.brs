@@ -1,7 +1,5 @@
 function room_menu(object)
-  object.audio = invalid
-  object.opacity = 150
-  object.no_opacity = 255
+  object.const = GetConstants()
   object.arrBoards = []
   object.selected_idx = 0
   object.rows = 2
@@ -29,12 +27,12 @@ function room_menu(object)
     for i = 0 to m.num.[0].["menu_pos"].Count() - 1
       name = "level" + str(i - Int(i / 6) * 6).trim()
       m.addLevel(name, "level" + str(i), c_x + m.num[0].["menu_pos"].[i].x, c_y + m.num[0].["menu_pos"].[i].y)
-      m.arrBoards[i].alpha = m.opacity
+      m.arrBoards[i].alpha = m.const.opacity
       m.arrBoards[i].board_difficulty = m.num[i].["difficulty"]
       m.arrBoards[i].board_label = m.num[i].["label"]
       m.arrBoards[i].layout_pos = m.num[i].["layout_pos"]
     end for
-    m.arrBoards[0].alpha = m.no_opacity
+    m.arrBoards[0].alpha = m.const.no_opacity
 
     'Audio
     btn_Audio = m.game.getBitmap("but_audio")
@@ -74,8 +72,8 @@ function room_menu(object)
     font2 = m.game.getFont("font2_25")
     DrawText(canvas, "SELECT A LEVEL", canvas.GetWidth() / 2, canvas.GetHeight() - 670, font1, "center", &hFFFFFFFF)
     x_b = 400
-    y_b = 213
-    y_l = 355
+    y_b = 216
+    y_l = 350
     for i = 0 to m.arrBoards.Count() - 1
       DrawText(canvas, m.arrBoards[i].board_difficulty, x_b, y_b, font2, "center", &hFFFFFFFF)
       DrawText(canvas, m.arrBoards[i].board_label, x_b, y_l, font2, "center", &hFFFFFFFF)
@@ -97,13 +95,13 @@ function room_menu(object)
     if code = 5 ' Right
       m.onSoundMenu("tab", 50)
       if m.selected_idx < m.arrBoards.Count()
-        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.opacity
         m.selected_idx++
         if m.arrBoards.Count() = m.selected_idx
-          m.arrBoards[0].alpha = m.no_opacity
+          m.arrBoards[0].alpha = m.const.no_opacity
           m.selected_idx = 0
         end if
-        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.no_opacity
       end if
     end if
 
@@ -111,39 +109,39 @@ function room_menu(object)
       m.onSoundMenu("tab", 50)
       if m.selected_idx = 0
         m.selected_idx = m.arrBoards.Count() - 1
-        m.arrBoards[0].alpha = m.opacity
+        m.arrBoards[0].alpha = m.const.opacity
         m.selected_idx = m.arrBoards.Count() - 1
-        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.no_opacity
       else if m.selected_idx > 0
-        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.opacity
         m.selected_idx--
-        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.no_opacity
       end if
     end if
 
     if code = 3 ' Down
       m.onSoundMenu("tab", 50)
       if m.selected_idx >= 0 and m.selected_idx <= m.rows
-        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.opacity
         m.selected_idx = m.selected_idx + m.cols
-        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.no_opacity
       else if m.selected_idx >= m.cols
-        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.opacity
         m.selected_idx = m.selected_idx - m.cols
-        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.no_opacity
       end if
     end if
 
     if code = 2 ' Up
       m.onSoundMenu("tab", 50)
       if m.selected_idx >= m.cols and m.selected_idx <= m.arrBoards.Count() - 1
-        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.opacity
         m.selected_idx = m.selected_idx - m.cols
-        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.no_opacity
       else if m.selected_idx <= m.rows
-        m.arrBoards[m.selected_idx].alpha = m.opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.opacity
         m.selected_idx = m.selected_idx + m.cols
-        m.arrBoards[m.selected_idx].alpha = m.no_opacity
+        m.arrBoards[m.selected_idx].alpha = m.const.no_opacity
       end if
     end if
     'Back

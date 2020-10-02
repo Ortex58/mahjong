@@ -76,7 +76,7 @@ function popupRestart(object)
   end function
 
   object.onSoundPopup = function(sound as string, volume as integer)
-    if m.game.audio.status = true
+    if m.game.audio.status = false
       m.game.playSound(sound, volume)
     end if
   end function

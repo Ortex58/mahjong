@@ -1,6 +1,7 @@
 function room_start(object)
   object.transdt = 20
   object.trans = false
+
   object.onCreate = function(args)
     m.game_started = false
     ' set z-order
@@ -13,16 +14,8 @@ function room_start(object)
     bg = m.addImage("main", region)
     bg.offset_x = 0
     bg.offset_y = 0
-
   end function
 
-  object.onUpdate = function(dt)
-
-  end function
-
-  object.onDrawBegin = function(canvas)
-
-  end function
   'Draw OK image
   object.onDrawEnd = function(canvas)
     
