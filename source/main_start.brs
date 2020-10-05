@@ -14,27 +14,47 @@ function room_start(object)
     bg = m.addImage("main", region)
     bg.offset_x = 0
     bg.offset_y = 0
+
+    loading_frames = TexturePacker_GetRegions(ParseJson(ReadAsciiFile("pkg:/sprites/mahjong_load.json")), m.game.getBitmap("loader_atlas"))
+    anim_frames = []
+    anim_frames.push(loading_frames["title-1.png"])
+    anim_frames.push(loading_frames["title-2.png"])
+    anim_frames.push(loading_frames["title-3.png"])
+    anim_frames.push(loading_frames["title-4.png"])
+    anim_frames.push(loading_frames["title-5.png"])
+    anim_frames.push(loading_frames["title-6.png"])
+    m.anim = m.addAnimatedImage("preloader", anim_frames, { animation_speed: 6000 })
+    m.anim.offset_x = 640 - 336 / 2
+    m.anim.offset_y = 720 - 160 - 30
+    mplayanim = Sequence(m.anim)'firsItem
+		for i = 0 to 5
+			mplayanim.addAction(OffsetTo(m.anim, m.anim.offset_x + 5, m.anim.offset_y, 333, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(m.anim, m.anim.offset_x - 5, m.anim.offset_y, 333, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(m.anim, m.anim.offset_x, m.anim.offset_y, 333, "QuadraticTween"))
+			' anim queue
+			mplayanim.Run()
+		end for
   end function
 
   'Draw OK image
   object.onDrawEnd = function(canvas)
-    
+
     if m.trans = true
       font2 = m.game.getFont("font2_25")
-			DrawText(canvas, "Press OK to Start", canvas.GetWidth()/2, canvas.GetHeight()/2+300, font2, "center", &hFFFFFFFF)
-			m.transdt -= 1
-			if m.transdt = 0
-				m.transdt = 30
-				m.trans = false
-			end if
-		else if m.trans = false
-			m.transdt -= 1
-			if m.transdt = 0
-				m.transdt = 30
-				m.trans = true
-			end if
-		end if
-	
+      DrawText(canvas, "Press OK to Start", canvas.GetWidth() / 2, canvas.GetHeight() / 2 + 300, font2, "center", &hFFFFFFFF)
+      m.transdt -= 1
+      if m.transdt = 0
+        m.transdt = 30
+        m.trans = false
+      end if
+    else if m.trans = false
+      m.transdt -= 1
+      if m.transdt = 0
+        m.transdt = 30
+        m.trans = true
+      end if
+    end if
+
   end function
 
   object.onButton = function(code as integer)
@@ -43,9 +63,9 @@ function room_start(object)
       m.game.End()
     end if
 
-    if code = 6 OR code = 13 then ' Select
-    m.game_started = true
-    m.game.changeRoom("room_menu")
+    if code = 6 or code = 13 then ' Select
+      m.game_started = true
+      m.game.changeRoom("room_menu")
     end if
   end function
 

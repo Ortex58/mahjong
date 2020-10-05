@@ -35,6 +35,9 @@ sub Main()
 	game.loadSound("win", "pkg:/sounds/pair.wav")
 	game.loadSound("game_win", "pkg:/sounds/game_win.wav")
 
+	'load atlas
+	game.loadBitmap("loader_atlas", "pkg:/sprites/mahjong_load.png")
+
 	'Load room
 	game.defineRoom("room_lobby", room_lobby)
 	game.defineRoom("room_menu", room_menu)
@@ -51,7 +54,7 @@ sub Main()
 
 	'initialize tools and controllers
 	game.defineObject("libTweener", tweener)
-	game.tweener = game.createInstance("libTweener", {persistent:true})
+	game.tweener = game.createInstance("libTweener", { persistent: true })
 
 	'Sellect room
 	game.changeRoom("room_start")
@@ -61,20 +64,19 @@ sub Main()
 
 end sub
 
-Function IsValid(value As Dynamic) As Boolean
-    Return Type(value) <> "<uninitialized>" And value <> invalid
-End Function
+function IsValid(value as dynamic) as boolean
+	return Type(value) <> "<uninitialized>" and value <> invalid
+end function
 
-Function IsArray(value As Dynamic) As Boolean
-    Return IsValid(value) And GetInterface(value, "ifArray") <> invalid
-End Function
+function IsArray(value as dynamic) as boolean
+	return IsValid(value) and GetInterface(value, "ifArray") <> invalid
+end function
 
-Function IsObject(value As Dynamic) As Boolean
-    Return IsValid(value) And GetInterface(value, "ifAssociativeArray") <> invalid
-End Function
+function IsObject(value as dynamic) as boolean
+	return IsValid(value) and GetInterface(value, "ifAssociativeArray") <> invalid
+end function
 
-
-Function GetConstants() as object
+function GetConstants() as object
 	c = {}
 	c.DEBUG = true
 	c.TILE_W = 60
@@ -92,4 +94,4 @@ Function GetConstants() as object
 	c.EVT_RESTART_OK = "restart_ok"
 
 	return c
-End Function
+end function

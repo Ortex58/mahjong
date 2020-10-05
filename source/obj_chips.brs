@@ -83,10 +83,10 @@ function obj_chips(object)
 		if m.select_menu = false
 			if code = 4 or code = 5 'arrow codes horizontal
 				m.trySelectTile(m.selTile_idx, code, false)
-				m.onSoundTitles("tab", 50)
+				m.onSoundTitles("tab", 100)
 			else if code = 2 or code = 3 'arrow codes vertical
 				m.trySelectTile(m.selTile_idx, code, true)
-				m.onSoundTitles("tab", 50)
+				m.onSoundTitles("tab", 100)
 			end if
 			if code = 6
 				tileItem = m.arrTiles[m.selTile_idx]
@@ -104,7 +104,7 @@ function obj_chips(object)
 							print "is a pair!"
 							m.equalArr[0].setEnabled(false)
 							m.equalArr[1].setEnabled(false)
-							m.onSoundTitles("win", 50)
+							m.onSoundTitles("win", 100)
 							m.score += 500
 							last = m.arrTiles.Count() - 1
 							while last >= 0 and not m.arrTiles[last].enabled
@@ -177,33 +177,24 @@ function obj_chips(object)
 					arrEqual.Push(aveilables[j])
 					firsItem = arrEqual[0].images[0]
 					secondItem = arrEqual[1].images[0]
-					mplayanim = Sequence(firsItem)
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x + 5 , firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x - 5, firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x, firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x + 5 , firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x - 5, firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x, firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x + 5 , firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x - 5, firsItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x, firsItem.offset_y, 1000, "QuadraticTween"))
-					' anim queue
-					mplayanim.Run()
-					mplayanim = Sequence(secondItem)
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x + 5 , secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x - 5, secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x, secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x + 5 , secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x - 5, secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x, secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x + 5 , secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x - 5, secondItem.offset_y, 1000, "QuadraticTween"))
-					mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x, secondItem.offset_y, 1000, "QuadraticTween"))
-					' anim queue
-					mplayanim.Run()
-
 				end if
 			end for
+		end for
+		mplayanim = Sequence(firsItem)'firsItem
+		for i = 0 to 3
+			mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x + 5, firsItem.offset_y, 1000, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x - 5, firsItem.offset_y, 1000, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(firsItem, firsItem.offset_x, firsItem.offset_y, 1000, "QuadraticTween"))
+			' anim queue
+			mplayanim.Run()
+		end for
+		mplayanim = Sequence(secondItem)' secondItem
+		for i = 0 to 3
+			mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x + 5, secondItem.offset_y, 1000, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x - 5, secondItem.offset_y, 1000, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(secondItem, secondItem.offset_x, secondItem.offset_y, 1000, "QuadraticTween"))
+			' anim queue
+			mplayanim.Run()
 		end for
 	end function
 
@@ -347,10 +338,10 @@ function obj_chips(object)
 	end function
 
 	object.onSoundTitles = function(sound as string, volume as integer)
-    if m.game.audio.status = true
-      m.game.playSound(sound, volume)
-    end if
-  end function
+		if m.game.audio.status = true
+			m.game.playSound(sound, volume)
+		end if
+	end function
 
 
 end function
