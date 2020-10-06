@@ -19,7 +19,7 @@ function room_lobby(object)
 		bg = m.addImage("main", region)
 		bg.offset_x = 0
 		bg.offset_y = 0
-
+		
 		'Audio Icon
 		btn_Audio = m.game.getBitmap("but_audio")
 		audio_w = 80
@@ -34,12 +34,12 @@ function room_lobby(object)
 			audio_index = 0
 		else audio_index = 1
 		end if
+		print m.game.audio.status
 		m.game.audio = m.addAnimatedImage("button_Audio", [region1, region2], { index: audio_index
-      offset_x: 1205,
-    offset_y: 80 })
-		m.audio = m.game.audio
-		m.audio.status = m.game.audio.status
-		m.menuItems.Push(m.audio)
+		offset_x: 1205,
+		offset_y: 80,
+		status: m.game.audio.status })
+		m.menuItems.Push(m.game.audio)
 
 		btn_Hint = m.game.getBitmap("but_hint")
 		width = btn_Hint.GetWidth()

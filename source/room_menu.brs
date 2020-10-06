@@ -53,6 +53,7 @@ function room_menu(object)
       offset_x: 1205,
     offset_y: 80 })
     m.game.audio.status = false
+    print m.game.audio.status
   end function
 
   'Function create a boards level

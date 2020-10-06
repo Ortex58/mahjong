@@ -43,7 +43,7 @@ function popupRestart(object)
   object.onButton = function(code as integer)
 
     if code = 5 or code = 4' Right
-      m.onSoundPopup("tab", 50)
+      m.onSoundPopup("tab", 100)
       if m.btn_no_popup.status = true
         m.btn_no_popup.status = false
         m.btn_no_popup.alpha = m.const.opacity
@@ -58,7 +58,7 @@ function popupRestart(object)
     end if
 
     if code = 6 ' Click on menu item
-      m.onSoundPopup("click", 50)
+      m.onSoundPopup("click", 100)
       if m.btn_yes_popup.status = true'Cancel
         globalm = GetGlobalAA()
         globalm.game.postGameEvent(m.const.EVT_RESTART_OK,{})
@@ -76,7 +76,7 @@ function popupRestart(object)
   end function
 
   object.onSoundPopup = function(sound as string, volume as integer)
-    if m.game.audio.status = false
+    if m.game.audio.status = true
       m.game.playSound(sound, volume)
     end if
   end function
