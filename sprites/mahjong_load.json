@@ -2,59 +2,75 @@
 
 "title-1.png":
 {
-	"frame": {"x":0,"y":0,"w":49,"h":67},
+	"frame": {"x":0,"y":0,"w":50,"h":68},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":67},
-	"sourceSize": {"w":49,"h":67}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
 },
 "title-2.png":
 {
-	"frame": {"x":0,"y":67,"w":49,"h":67},
+	"frame": {"x":0,"y":68,"w":50,"h":68},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":67},
-	"sourceSize": {"w":49,"h":67}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
 },
 "title-3.png":
 {
-	"frame": {"x":0,"y":134,"w":49,"h":67},
+	"frame": {"x":0,"y":136,"w":50,"h":68},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":67},
-	"sourceSize": {"w":49,"h":67}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
 },
 "title-4.png":
 {
-	"frame": {"x":0,"y":201,"w":49,"h":67},
+	"frame": {"x":0,"y":204,"w":50,"h":68},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":67},
-	"sourceSize": {"w":49,"h":67}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
 },
 "title-5.png":
 {
-	"frame": {"x":0,"y":268,"w":49,"h":67},
+	"frame": {"x":0,"y":272,"w":50,"h":68},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":67},
-	"sourceSize": {"w":49,"h":67}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
 },
 "title-6.png":
 {
-	"frame": {"x":0,"y":335,"w":49,"h":67},
+	"frame": {"x":0,"y":340,"w":50,"h":68},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":49,"h":67},
-	"sourceSize": {"w":49,"h":67}
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
+},
+"title-7.png":
+{
+	"frame": {"x":0,"y":408,"w":50,"h":68},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
+},
+"title-8.png":
+{
+	"frame": {"x":0,"y":476,"w":50,"h":68},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":68},
+	"sourceSize": {"w":50,"h":68}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "mahjong_load.png",
 	"format": "RGBA8888",
-	"size": {"w":49,"h":402},
+	"size": {"w":50,"h":544},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:554b64aaa88f4b9905b91fa9664d0da6:3067a82abff74936de1015f170d1ca41:4923b17b9ffaf6fa728d49111be150bd$"
+	"smartupdate": "$TexturePacker:SmartUpdate:72c245865e7985a0a13ad146c4bc5b2e:92d7a51699090a48eefe0e438a90bc06:4923b17b9ffaf6fa728d49111be150bd$"
 }
 }

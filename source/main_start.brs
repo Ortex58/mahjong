@@ -23,17 +23,17 @@ function room_start(object)
     anim_frames.push(loading_frames["title-4.png"])
     anim_frames.push(loading_frames["title-5.png"])
     anim_frames.push(loading_frames["title-6.png"])
+    anim_frames.push(loading_frames["title-7.png"])
+    anim_frames.push(loading_frames["title-8.png"])
     m.anim = m.addAnimatedImage("preloader", anim_frames, { animation_speed: 6000 })
-    m.anim.offset_x = 640 - 336 / 2
-    m.anim.offset_y = 720 - 160 - 30
-    mplayanim = Sequence(m.anim)'firsItem
-		for i = 0 to 5
-			mplayanim.addAction(OffsetTo(m.anim, m.anim.offset_x + 5, m.anim.offset_y, 333, "QuadraticTween"))
-			mplayanim.addAction(OffsetTo(m.anim, m.anim.offset_x - 5, m.anim.offset_y, 333, "QuadraticTween"))
-			mplayanim.addAction(OffsetTo(m.anim, m.anim.offset_x, m.anim.offset_y, 333, "QuadraticTween"))
-			' anim queue
-			mplayanim.Run()
-		end for
+    m.anim.offset_x = 0
+    m.anim.offset_y = 0
+    mplayanim = Sequence(m.anim)
+			mplayanim.addAction(OffsetTo(m.anim, 1235, 0, 5000, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(m.anim, 1235, 653, 5000, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(m.anim, 0, 653, 5000, "QuadraticTween"))
+			mplayanim.addAction(OffsetTo(m.anim, 0, 0, 5000, "QuadraticTween"))
+      LoopAction(m.anim, mplayanim).Run()
   end function
 
   'Draw OK image
