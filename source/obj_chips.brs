@@ -5,7 +5,7 @@ function obj_chips(object)
 	object.aveilableCount = 0
 	object.score = 0
 	object.arrTiles = []
-	object.levelsFile = "pkg:/config/config-new-2.json"
+	object.levelsFile = "pkg:/config/config_mahjong.json"
 	object.selTile_idx = -1
 
 	object.const = GetConstants()
@@ -15,18 +15,13 @@ function obj_chips(object)
 	'********************************************************************
 	object.onCreate = function(args)
 		m.levelConfig = ParseJSON(ReadAsciiFile(m.levelsFile))
-
 		'TODO get level Type from args
 		levelID = args.level
-
 		' levelID = 5 'DEBUG level Type
-
 		levelData = m.levelConfig[levelID]
 		m.levelData = levelData
-
 		c_x = levelData.layout_pos.x
 		c_y = levelData.layout_pos.y
-
 		arrType = []
 		arrLength = levelData.pos.Count() \ 2
 		for j = 0 to arrLength - 1
@@ -75,10 +70,8 @@ function obj_chips(object)
 	object.onButton = function(code as integer)
 		if code = 10 and m.select_menu = false
 			m.select_menu = true
-			print true
 		else if code = 10 and m.select_menu = true
 			m.select_menu = false
-			print false
 		end if
 		if m.select_menu = false
 			if code = 4 or code = 5 'arrow codes horizontal
@@ -97,7 +90,6 @@ function obj_chips(object)
 					'TODO use "enable" prooerty to disable tile pairs
 					if tileItem.isMarked() and m.equalArr.Count() < 2
 						m.equalArr.Push(tileItem)
-						print m.equalArr.Count()
 					end if
 					if m.equalArr.Count() > 1
 						if m.equalArr[0].idx <> m.equalArr[1].idx and IsTileEqual(m.equalArr[0].type, m.equalArr[1].type)
@@ -125,7 +117,6 @@ function obj_chips(object)
 							m.equalArr[1].skin.alpha = 255
 							m.equalArr.Clear()
 							m.updateStats()
-							print m.equalArr.Count()
 						end if
 					end if
 				end if
@@ -259,6 +250,12 @@ function obj_chips(object)
 				if IsTileEqual(first, second) then m.aveilableCount++
 			end for
 		end for
+		if m.aveilableCount = 0 and m.activeCount = 144
+			const.game.postGameEvent(m.const.EVT_SHUFFLE_OK,{})
+		end if
+		if m.aveilableCount = 0 and m.activeCount < 144
+			m.game.createInstance("popupLose")
+		end if
 	end function
 	'********************************************************************
 	'	helpers

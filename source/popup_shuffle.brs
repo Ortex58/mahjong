@@ -1,7 +1,5 @@
 function popupShuffle(object)
   object.const = GetConstants()
-  object.opacity = 150
-  object.no_opacity = 255
   object.btn_yes_popup = invalid
   object.btn_no_popup = invalid
   object.onCreate = function(args)
@@ -51,7 +49,7 @@ function popupShuffle(object)
         m.btn_yes_popup.alpha = m.const.no_opacity
       else
         m.btn_yes_popup.status = false
-        m.btn_yes_popup.alpha = m.opacity
+        m.btn_yes_popup.alpha = m.const.opacity
         m.btn_no_popup.status = true
         m.btn_no_popup.alpha = m.const.no_opacity
       end if

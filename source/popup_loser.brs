@@ -1,9 +1,9 @@
-function popupWin(object)
+function popupLose(object)
   object.const = GetConstants()
-  object.opacity = 150
-  object.no_opacity = 255
+  
   object.btn_yes_popup = invalid
   object.btn_no_popup = invalid
+
   object.onCreate = function(args)
     m.depth = -10
     panel_bg = m.game.getBitmap("panel_bg")
@@ -30,25 +30,23 @@ function popupWin(object)
 
   object.onDrawEnd = function(canvas)
     font1 = m.game.getFont("font1_60")
-    text1 = DrawText(canvas, "YOU ARE WIN", canvas.GetWidth() / 2, canvas.GetHeight() - 460, font1, "center", &hFFFFFFFF)
+    text1 = DrawText(canvas, "GAME OVER", canvas.GetWidth() / 2, canvas.GetHeight() - 460, font1, "center", &hFFFFFFFF)
   end function
 
   object.onButton = function(code as integer)
 
     if code = 6 ' Click on menu item
-      m.onSoundPopup("click", 100)
-      globalm = GetGlobalAA()
-      globalm.game.postGameEvent(m.const.EVT_SHUFFLE_OK,{})
-      m.closePopup() ' close for every button
+      m.closePopup()
 		end if
-
+    
   end function
-
-
+  
+  
   object.closePopup = function()
+    m.onSoundPopup("click", 100)
     globalm = GetGlobalAA()
+    globalm.game.postGameEvent(m.const.EVT_RESTART_OK,{})
     m.game.destroyInstance(m)
-    ' m.game.changeRoom("room_menu")
   end function
 
   object.onSoundPopup = function(sound as string, volume as integer)

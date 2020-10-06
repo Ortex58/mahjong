@@ -34,7 +34,6 @@ function room_lobby(object)
 			audio_index = 0
 		else audio_index = 1
 		end if
-		print m.game.audio.status
 		m.game.audio = m.addAnimatedImage("button_Audio", [region1, region2], { index: audio_index
 		offset_x: 1205,
 		offset_y: 80,
@@ -163,11 +162,11 @@ function room_lobby(object)
 					m.game.audio.status = true
 					m.game.playSound("click", 100)
 					m.main_music_theme = m.game.musicResume()
-					m.audio.index = 0
+					m.game.audio.index = 0
 				else
 					m.game.audio.status = false
 					m.main_music_theme = m.game.musicPause()
-					m.audio.index = 1
+					m.game.audio.index = 1
 				end if
 			end if
 		end if
@@ -185,8 +184,6 @@ function room_lobby(object)
 		if event = m.const.EVT_SHUFFLE_OK then m.gameManager.shuffle()
 
 		if event = m.const.EVT_RESTART_OK then m.gameManager.resetField()
-
-		'TODO resetField()
 	end function
 
 	object.onSoundLobyMenu = function(sound as string, volume as integer)

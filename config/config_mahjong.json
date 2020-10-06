@@ -30,8 +30,8 @@
 		"label": "classic",
 		"difficulty": "medium",
 		"layout_pos": {
-			"x": 200,
-			"y": 200
+			"x": 130,
+			"y": 170
 		},
 		"layout_scale": ".9",
 		"pos": [
@@ -5575,8 +5575,8 @@
 			},
 			{
 				"u": 0,
-				"r": 74,
-				"d": 73,
+				"r": 81,
+				"d": 76,
 				"l": -1
 			},
 			{
@@ -10190,7 +10190,7 @@
 		"difficulty": "hard",
 		"layout_pos": {
 			"x": 260,
-			"y": 190
+			"y": 240
 		},
 		"layout_scale": "1",
 		"pos": [

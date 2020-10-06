@@ -51,6 +51,7 @@ sub Main()
 	game.defineObject("popupShuffle", popupShuffle)
 	game.defineObject("popupRestart", popupRestart)
 	game.defineObject("popupWin", popupWin)
+	game.defineObject("popupLose", popupLose)
 
 	'initialize tools and controllers
 	game.defineObject("libTweener", tweener)

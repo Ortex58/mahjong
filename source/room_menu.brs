@@ -7,7 +7,7 @@ function room_menu(object)
   object.main_music_theme = invalid
   
   'Parse JSON and add to num array
-  levelsFile = "pkg:/config/config-new-2.json"
+  levelsFile = "pkg:/config/config_mahjong.json"
   m.currentConfig = ParseJSON(ReadAsciiFile(levelsFile))
   object.num = m.currentConfig
 
@@ -53,7 +53,6 @@ function room_menu(object)
       offset_x: 1205,
     offset_y: 80 })
     m.game.audio.status = false
-    print m.game.audio.status
   end function
 
   'Function create a boards level
